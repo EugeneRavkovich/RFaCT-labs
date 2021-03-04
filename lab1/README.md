@@ -28,9 +28,9 @@
 * **Графики обучения**   
   *Синяя линия - на валидации*   
   *Оранжевая линия - на обучении*   
-  * Визуализация выбранной метрики качества
+  * Визуализация выбранной метрики качества (categorical_accuracy)
 ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab1/graphs/accuracy1.png)
-  * Визуализация потерь
+  * Визуализация выбранной функции потерь (categorical_crossentropy)
 ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab1/graphs/loss1.png)
 * **Анализ полученных результатов**   
 ## Ссылки
