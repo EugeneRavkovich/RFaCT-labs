@@ -63,28 +63,16 @@ def build_model():
   x = tf.keras.layers.Conv2D(filters=8, kernel_size=3, strides=2, padding='same')(inputs)
   x = tf.keras.layers.BatchNormalization()(x)
   x = tf.keras.activations.relu(x)
-  x = tf.keras.layers.Conv2D(filters=8, kernel_size=3, strides=1, padding='same')(inputs)
-  x = tf.keras.layers.BatchNormalization()(x)
-  x = tf.keras.activations.relu(x)
   # batch_size x 56 x 56 x 16
   x = tf.keras.layers.Conv2D(filters=16, kernel_size=3, strides=2, padding='same')(x)  
-  x = tf.keras.layers.BatchNormalization()(x)
-  x = tf.keras.activations.relu(x)
-  x = tf.keras.layers.Conv2D(filters=16, kernel_size=3, strides=1, padding='same')(x)  
   x = tf.keras.layers.BatchNormalization()(x)
   x = tf.keras.activations.relu(x)
   # batch_size x 28 x 28 x 32
   x = tf.keras.layers.Conv2D(filters=32, kernel_size=3, strides=2, padding='same')(x)
   x = tf.keras.layers.BatchNormalization()(x)
   x = tf.keras.activations.relu(x)
-  x = tf.keras.layers.Conv2D(filters=32, kernel_size=3, strides=1, padding='same')(x)
-  x = tf.keras.layers.BatchNormalization()(x)
-  x = tf.keras.activations.relu(x)
   # batch_size x 14 x 14 x 64
   x = tf.keras.layers.Conv2D(filters=64, kernel_size=3, strides=2, padding='same')(x)
-  x = tf.keras.layers.BatchNormalization()(x)
-  x = tf.keras.activations.relu(x)
-  x = tf.keras.layers.Conv2D(filters=64, kernel_size=3, strides=1, padding='same')(x)
   x = tf.keras.layers.BatchNormalization()(x)
   x = tf.keras.activations.relu(x)
   x = tf.keras.layers.MaxPool2D(2)(x) # batch_size x 7 x 7 x 64
