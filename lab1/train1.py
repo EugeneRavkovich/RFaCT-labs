@@ -58,11 +58,11 @@ def create_dataset(filenames, batch_size):
 
 def build_model(): 
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  x = tf.keras.layers.Conv2D(filters=4, kernel_size=3, strides=2)(inputs)
-  x = tf.keras.layers.Conv2D(filters=8, kernel_size=3, strides=2)(x)
-  x = tf.keras.layers.Conv2D(filters=16, kernel_size=3, strides=2)(x)
+  x = tf.keras.layers.Conv2D(filters=16, kernel_size=3, strides=2)(inputs)
   x = tf.keras.layers.Conv2D(filters=32, kernel_size=3, strides=2)(x)
-  x = tf.keras.layers.Conv2D(filters=32, kernel_size=3, strides=2)(x)
+  x = tf.keras.layers.Conv2D(filters=64, kernel_size=3, strides=2)(x)
+  x = tf.keras.layers.Conv2D(filters=128, kernel_size=3, strides=2)(x)
+  x = tf.keras.layers.Conv2D(filters=256, kernel_size=3, strides=2)(x)
   x = tf.keras.activations.relu(x)
   x = tf.keras.layers.MaxPool2D()(x)
   x = tf.keras.layers.Flatten()(x)
