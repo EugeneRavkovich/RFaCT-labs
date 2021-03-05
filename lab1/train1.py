@@ -59,18 +59,21 @@ def create_dataset(filenames, batch_size):
 def build_model():
   # batch_size x 224 x 224 x 3  
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  x = tf.keras.layers.Conv2D(filters=8, kernel_size=3)(inputs)
+  x = tf.keras.layers.Conv2D(filters=8, kernel_size=3, strides=2, padding='same')(inputs) # 112 x 112 x 8
+  x = tf.keras.layers.BatchNormalization()(x)
   x = tf.keras.activations.relu(x)
-  x = tf.keras.layers.Conv2D(filters=8, kernel_size=3)(x)
+  x = tf.keras.layers.Conv2D(filters=16, kernel_size=3, strides=2, padding='same')(x) # 56 x 56 x 16
+  x = tf.keras.layers.BatchNormalization()(x)
   x = tf.keras.activations.relu(x)
-  x = tf.keras.layers.Conv2D(filters=8, kernel_size=3)(x)
+  x = tf.keras.layers.Conv2D(filters=32, kernel_size=3, strides=2, padding='same')(x) # 28 x 28 x 32
+  x = tf.keras.layers.BatchNormalization()(x)
   x = tf.keras.activations.relu(x)
-  x = tf.keras.layers.Conv2D(filters=8, kernel_size=3)(x)
+  x = tf.keras.layers.Conv2D(filters=64, kernel_size=3, strides=2, padding='same')(x) # 14 x 14 x 64
+  x = tf.keras.layers.BatchNormalization()(x)
   x = tf.keras.activations.relu(x)
-  x = tf.keras.layers.Conv2D(filters=8, kernel_size=3)(x)
-  x = tf.keras.activations.relu(x)
-  x = tf.keras.layers.MaxPool2D()(x)
+  x = tf.keras.layers.MaxPool2D()(x) # 7 x 7 x 64
   x = tf.keras.layers.Flatten()(x)
+  x = tf.keras.layers.Dense(784)(x)
   outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
   return tf.keras.Model(inputs=inputs, outputs=outputs)
 
