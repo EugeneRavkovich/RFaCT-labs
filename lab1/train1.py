@@ -61,7 +61,7 @@ def build_model():
   x = tf.keras.layers.Conv2D(filters=8, kernel_size=3, strides=2, padding='same')(inputs)
   x = tf.keras.layers.BatchNormalization()(x)
   x = tf.keras.activations.relu(x)
-  x = tf.keras.layers.Conv2D(filters=16, kernel_size=3, stride=2, padding='same')(x)
+  x = tf.keras.layers.Conv2D(filters=16, kernel_size=3, strides=2, padding='same')(x)
   x = tf.keras.layers.BatchNormalization()(x)
   x = tf.keras.activations.relu(x)
   x = tf.keras.layers.Conv2D(filters=32, kernel_size=3, strides=2, padding='same')(x)
