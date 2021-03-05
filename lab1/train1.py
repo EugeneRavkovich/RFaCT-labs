@@ -59,28 +59,28 @@ def create_dataset(filenames, batch_size):
 def build_model():
   # batch_size x 224 x 224 x 3  
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  # batch_size x 112 x 112 x 64
-  x = tf.keras.layers.Conv2D(filters=64, kernel_size=3, strides=2, padding='same')(inputs)
+  # batch_size x 112 x 112 x 16
+  x = tf.keras.layers.Conv2D(filters=16, kernel_size=3, strides=2, padding='same')(inputs)
   x = tf.keras.layers.BatchNormalization()(x)
   x = tf.nn.relu(x)
-  # batch_size x 56 x 56 x 128
-  x = tf.keras.layers.Conv2D(filters=128, kernel_size=3, strides=2, padding='same')(x)  
+  # batch_size x 56 x 56 x 32
+  x = tf.keras.layers.Conv2D(filters=32, kernel_size=3, strides=2, padding='same')(x)  
   x = tf.keras.layers.BatchNormalization()(x)
   x = tf.keras.activations.relu(x)
-  # batch_size x 28 x 28 x 256
+  # batch_size x 28 x 28 x 64
+  x = tf.keras.layers.Conv2D(filters=64, kernel_size=3, strides=2, padding='same')(x)
+  x = tf.keras.layers.BatchNormalization()(x)
+  x = tf.keras.activations.relu(x)
+  # batch_size x 14 x 14 x 128
+  x = tf.keras.layers.Conv2D(filters=128, kernel_size=3, strides=2, padding='same')(x)
+  x = tf.keras.layers.BatchNormalization()(x)
+  x = tf.keras.activations.relu(x)
+  # batch_size x 7 x 7 x 256
   x = tf.keras.layers.Conv2D(filters=256, kernel_size=3, strides=2, padding='same')(x)
   x = tf.keras.layers.BatchNormalization()(x)
   x = tf.keras.activations.relu(x)
-  # batch_size x 14 x 14 x 512
+  # batch_size x 4 x 4 x 512
   x = tf.keras.layers.Conv2D(filters=512, kernel_size=3, strides=2, padding='same')(x)
-  x = tf.keras.layers.BatchNormalization()(x)
-  x = tf.keras.activations.relu(x)
-  # batch_size x 7 x 7 x 1024
-  x = tf.keras.layers.Conv2D(filters=1024, kernel_size=3, strides=2, padding='same')(x)
-  x = tf.keras.layers.BatchNormalization()(x)
-  x = tf.keras.activations.relu(x)
-  # batch_size x 4 x 4 x 2048
-  x = tf.keras.layers.Conv2D(filters=2048, kernel_size=3, strides=2, padding='same')(x)
   x = tf.keras.layers.MaxPool2D(4)(x)
   x = tf.keras.layers.Flatten()(x)
   outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
