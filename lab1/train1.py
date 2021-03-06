@@ -71,9 +71,8 @@ def build_model():
   x = tf.keras.layers.BatchNormalization()(x)
   x = tf.keras.activations.relu(x)
   x = tf.keras.layers.Conv2D(filters=256, kernel_size=4, strides=2, padding='same')(x) # 7 x 7 x 128
-  x = tf.keras.activations.relu(x)
-  x = tf.keras.layers.AvgPool2D((3,3), strides=1)(x)
   x = tf.keras.layers.Flatten()(x)
+  x = tf.keras.layers.Dende(256)(x)
   outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
   return tf.keras.Model(inputs=inputs, outputs=outputs)
 
