@@ -63,7 +63,7 @@ def build_model():
   x = tf.keras.layers.GlobalAveragePooling2D()(model) # (None x H x W x channels --> None x channels(1280))
   x = tf.keras.layers.Dense(x.shape[1]/2)(x)
   x = tf.keras.layers.Dense(x.shape[1]/2)(x)
-  outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activation.softmax)(x)
+  outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
   return tf.keras.Model(inputs=inputs, outputs=outputs)
 
 
