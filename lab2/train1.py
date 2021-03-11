@@ -55,9 +55,16 @@ def create_dataset(filenames, batch_size):
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
+img_augmentation = tf.keras.Sequential([
+  tf.keras.layers.experimental.preprocessing.RandomRotation(factor=0.15),
+  tf.keras.layers.experimental.preprocessing.RandomTranslation(height_factor=0.1, width_factor=0.1),
+  tf.keras.layers.experimental.preprocessing.RandomFlip(),
+  tf.keras.layers.experimental.preprocessing.RandomContrast(factor=0.1)
+])
 
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
+  x = img_augmentation(inputs)
   model = tf.keras.applications.EfficientNetB0(include_top=False, input_tensor=inputs, weights='imagenet')
   model.trainable = False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output) # (None x H x W x channels --> None x channels(1280))
