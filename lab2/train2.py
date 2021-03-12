@@ -61,7 +61,7 @@ def get_submodules_from_kwargs(kwargs):
     utils = kwargs.get('utils', _KERAS_UTILS)
     return utils
 
-
+  
 model_name = 'efficientnet-b0'
 file_name = model_name + '_weights_tf_dim_ordering_tf_kernels_autoaugment_notop.h5'
 file_hash = IMAGENET_WEIGHTS_HASHES[model_name][1]
@@ -71,7 +71,7 @@ weights_path = tf.keras.utils.get_file(
             cache_subdir='models',
             file_hash=file_hash,
         )
-weights_1 = model.load_weights(weights_path)
+weights_1 = tf.keras.Model.load_weights(weights_path)
 
 
 def build_model():
