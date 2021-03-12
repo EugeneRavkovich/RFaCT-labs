@@ -14,8 +14,6 @@ import time
 from tensorflow.python import keras as keras
 from tensorflow.python.keras.callbacks import LearningRateScheduler
 
-from weights import IMAGENET_WEIGHTS_PATH, IMAGENET_WEIGHTS_HASHES
-
 # Avoid greedy memory allocation to allow shared GPU usage
 gpus = tf.config.experimental.list_physical_devices('GPU')
 for gpu in gpus:
@@ -57,30 +55,12 @@ def create_dataset(filenames, batch_size):
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
-def get_submodules_from_kwargs(kwargs):
-    utils = kwargs.get('utils', _KERAS_UTILS)
-    return utils
-
-  
-model_name = 'efficientnet-b0'
-file_name = model_name + '_weights_tf_dim_ordering_tf_kernels_autoaugment_notop.h5'
-file_hash = IMAGENET_WEIGHTS_HASHES[model_name][1]
-weights_path = tf.keras.utils.get_file(
-            file_name,
-            IMAGENET_WEIGHTS_PATH + file_name,
-            cache_subdir='models',
-            file_hash=file_hash,
-        )
-weights_1 = tf.keras.Model.load_weights(weights_path)
-
-
 def build_model():
-  inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  model = tf.keras.applications.EfficientNetB0(input_tensor=inputs, include_top=False, weights=weights_1)
+  model = EfficientNetB0(include_top=False, weights='imagenet')
   model.trainable = False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
   outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
-  return tf.keras.Model(inputs=inputs, outputs=outputs)
+  return tf.keras.Model(inputs=model.input, outputs=outputs)
 
 
 def main():
