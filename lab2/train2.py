@@ -56,11 +56,12 @@ def create_dataset(filenames, batch_size):
     .prefetch(tf.data.AUTOTUNE)
 
 def build_model():
-  model = tf.keras.applications.EfficientNetB0(include_top=False, weights='imagenet')
+  inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
+  model = tf.keras.applications.EfficientNetB0(input_tensor=inputs, include_top=False, weights="imagenet")
   model.trainable = False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
   outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
-  return tf.keras.Model(inputs=model.input, outputs=outputs)
+  return tf.keras.Model(inputs=inputs, outputs=outputs)
 
 
 def main():
@@ -74,7 +75,8 @@ def main():
   validation_dataset = dataset.skip(train_size)
 
   model = build_model()
-
+  model.get_weights()
+  
   model.compile(
     optimizer=tf.optimizers.Adam(lr=0.001),
     loss=tf.keras.losses.categorical_crossentropy,
