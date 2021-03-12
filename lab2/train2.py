@@ -60,6 +60,7 @@ def build_model():
   model = tf.keras.applications.EfficientNetB0(input_tensor=inputs, include_top=False, weights="imagenet")
   model.trainable = False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
+  x = layers.BatchNormalization()(x)
   outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
   return tf.keras.Model(inputs=inputs, outputs=outputs)
 
@@ -75,12 +76,11 @@ def main():
   validation_dataset = dataset.skip(train_size)
 
   model = build_model()
-  model.get_weights()
   
   model.compile(
-    optimizer=tf.optimizers.Adam(lr=0.001),
+    optimizer=tf.optimizers.Adam(lr=0.01),
     loss=tf.keras.losses.categorical_crossentropy,
-    metrics=[tf.keras.metrics.categorical_accuracy],
+    metrics=[tf.keras.metrics.accuracy],
   )
 
   log_dir='{}/owl-{}'.format(LOG_DIR, time.time())
