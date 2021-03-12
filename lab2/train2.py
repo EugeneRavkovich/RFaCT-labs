@@ -14,7 +14,7 @@ import time
 from tensorflow.python import keras as keras
 from tensorflow.python.keras.callbacks import LearningRateScheduler
 
-from .weights import IMAGENET_WEIGHTS_PATH, IMAGENET_WEIGHTS_HASHES
+from weights import IMAGENET_WEIGHTS_PATH, IMAGENET_WEIGHTS_HASHES
 
 # Avoid greedy memory allocation to allow shared GPU usage
 gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -71,12 +71,12 @@ weights_path = tf.keras.utils.get_file(
             cache_subdir='models',
             file_hash=file_hash,
         )
-weights = model.load_weights(weights_path)
+weights_1 = model.load_weights(weights_path)
 
 
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  model = tf.keras.applications.EfficientNetB0(input_tensor=inputs, include_top=False, weights=weights)
+  model = tf.keras.applications.EfficientNetB0(input_tensor=inputs, include_top=False, weights=weights_1)
   model.trainable = False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
   outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
