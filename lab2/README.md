@@ -13,11 +13,11 @@
   *Синяя линия - на валидации*   
   *Оранжевая линия - на обучении*   
   * Визуализация выбранной метрики качества (categorical_accuracy)
-  ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab2/graphs/imagenet_epoch_categorical_accuracy.svg)
+  ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab2/graphs/norm_imagenet_epoch_categorical_accuracy.svg)
   * Визуализация выбранной функции потерь (categorical_crossentropy)
-  ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab2/graphs/imagenet_epoch_loss.svg)
+  ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab2/graphs/norm_imagenet_epoch_loss.svg)
 * **Анализ полученных результатов**   
-  На графиках видно, что применение техники transfer learning существенно увеличило качество классификации. При Learning rate 0.001 модель обучалась плохо:    
+  На графиках видно, что применение техники transfer learning улучшило качество классификации. При Learning rate 0.001 модель обучалась плохо:    
   *Синяя линия - на валидации*   
   *Оранжевая линия - на обучении*   
   * Визуализация выбранной метрики качества (categorical_accuracy)
@@ -35,7 +35,7 @@
   * Визуализация выбранной функции потерь (categorical_crossentropy)
   ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab2/graphs/my_imagenet_epoch__loss.svg)
   ### Случайное начальное приближение:    
-  *На 27 эпохе вылезла ошибка 'out of memory', поэтому на графике не представлены все 50 эпох обучения*    
+  *На середине обучения вылезла ошибка 'out of memory', поэтому на графике не представлены все 50 эпох обучения*    
   *файл efficientnetb0_random_weights.py*     
   *Синяя линия - на валидации*   
   *Оранжевая линия - на обучении*   
@@ -43,3 +43,5 @@
   ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab2/graphs/my_none_epoch_categorical_accuracy.svg)
   * Визуализация выбранной функции потерь (categorical_crossentropy)
   ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab2/graphs/my_none_epoch_loss.svg)
+  * **Анализ полученных результатов**    
+  Как показал эксперимент, применение техники transfer learning позволяет существенно улучшить качество классификации для небольших датасетов. 
