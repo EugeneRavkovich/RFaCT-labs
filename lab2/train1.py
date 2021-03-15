@@ -34,7 +34,7 @@ def parse_proto_example(proto):
   }
   example = tf.io.parse_single_example(proto, keys_to_features)
   example['image'] = tf.image.decode_jpeg(example['image/encoded'], channels=3)
-  example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.int32)
+  example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.float32)
   example['image'] = tf.image.resize(example['image'], tf.constant([RESIZE_TO, RESIZE_TO]))
   return example['image'], tf.one_hot(example['image/label'], depth=NUM_CLASSES)
 
@@ -63,10 +63,6 @@ def build_model():
   outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
   return tf.keras.Model(inputs=inputs, outputs=outputs)
 
-def input_preprocess(image, label):
-  label = tf.one_hot(label, NUM_CLASSES)
-  return image, label
-
 def main():
   args = argparse.ArgumentParser()
   args.add_argument('--train', type=str, help='Glob pattern to collect train tfrecord files, use single quote to escape *')
@@ -81,15 +77,9 @@ def main():
   #train_dataset = train_dataset.map(lambda image, label: (tf.image.resize(image, size), label))
   #validation_dataset = validation_dataset.map(lambda image, label: (tf.image.resize(image, size), label))
   
-  train_dataset = train_dataset.map(
-    input_preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE
-  )
   train_dataset = train_dataset.prefetch(tf.data.experimental.AUTOTUNE)
-  validation_dataset = validation_dataset.map(input_preprocess)
-
-  
-  
-
+  train_dataset = train_dataset.prefetch(tf.data.experimental.AUTOTUNE)
+ 
   model = build_model()
 
   model.compile(
