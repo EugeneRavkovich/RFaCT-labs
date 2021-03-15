@@ -41,4 +41,4 @@
   * Визуализация выбранной метрики качества (categorical_accuracy)
   ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab2/graphs/my_imagenet_epoch_categorical_accuracy.svg)
   * Визуализация выбранной функции потерь (categorical_crossentropy)
-  ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab2/graphs/my_imagenet_epoch_loss.svg)
+
