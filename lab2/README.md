@@ -19,9 +19,18 @@
   ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab2/pics/1.png)
   В целом, все мои попытки что-то предпринять не увенчались успехом. Поэтому я решил адаптировать и прогнать код с https://keras.io/examples/vision/image_classification_efficientnet_fine_tuning/ на нашем датасете. Результаты получились следующие:    
   # Transfer Learning:   
+  *Файл efficientnetb0_w_imagenet.py*    
   *Синяя линия - на валидации*   
   *Оранжевая линия - на обучении*   
   * Визуализация выбранной метрики качества (categorical_accuracy)
   ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab2/graphs/my_imagenet_epoch_categorical_accuracy.svg)
   * Визуализация выбранной функции потерь (categorical_crossentropy)
   ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab2/graphs/my_imagenet_epoch__loss.svg)
+  # Случайное начальное приближение     
+  *Файл efficientnetb0_random_weights.py*    
+  *Синяя линия - на валидации*   
+  *Оранжевая линия - на обучении*   
+  * Визуализация выбранной метрики качества (categorical_accuracy)
+  ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab2/graphs/my_none_epoch_categorical_accuracy.svg)
+  * Визуализация выбранной функции потерь (categorical_crossentropy)
+  ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab2/graphs/my_none_epoch_loss.svg)
