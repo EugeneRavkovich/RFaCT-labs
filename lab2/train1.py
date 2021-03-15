@@ -69,6 +69,7 @@ def build_model():
   model.trainable = False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
   outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
+  model = tf.keras.Model(inputs, outputs)
   model.compile(
     optimizer=tf.optimizers.Adam(lr=0.001),
     loss=tf.keras.losses.categorical_crossentropy,
@@ -89,12 +90,7 @@ def main():
   size = (RESIZE_TO, RESIZE_TO)
   train_dataset = train_dataset.map(lambda image, label: (tf.image.resize(image, size), label))
   validation_dataset = validation_dataset.map(lambda image, label: (tf.image.resize(image, size), label))
-  
-
-  train_dataset = train_dataset.batch(batch_size=BATCH_SIZE, drop_remainder=True)
-
-  validation_dataset = validation_dataset.batch(batch_size=BATCH_SIZE, drop_remainder=True)
-  
+   
   model = build_model()
 
   #model.compile(
