@@ -104,13 +104,13 @@ def main():
   validation_dataset = validation_dataset.batch(batch_size=BATCH_SIZE, deop_remainder=True)
   
   model = build_model()
-"""
-  model.compile(
-    optimizer=tf.optimizers.Adam(lr=0.001),
-    loss=tf.keras.losses.categorical_crossentropy,
-    metrics=[tf.keras.metrics.categorical_accuracy],
-  )
-"""
+
+  #model.compile(
+   # optimizer=tf.optimizers.Adam(lr=0.001),
+   # loss=tf.keras.losses.categorical_crossentropy,
+   # metrics=[tf.keras.metrics.categorical_accuracy],
+ # )
+
   log_dir='{}/owl-{}'.format(LOG_DIR, time.time())
   model.fit(
     train_dataset,
