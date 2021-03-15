@@ -25,7 +25,7 @@
   * Визуализация выбранной функции потерь (categorical_crossentropy)
   ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab2/graphs/imagenet_epoch_loss.svg)
   Понижение Learning rate до 0.0001 положительно сказалось на процессе обучения. 
-## Прежде чем было принято решение понизить шаг обучения, я пытался адаптировать и прогнать код с https://keras.io/examples/vision/image_classification_efficientnet_fine_tuning/ , результaты ниже:
+## Прежде чем было принято решение понизить шаг обучения, я пытался адаптировать и прогнать код с https://keras.io/examples/vision/image_classification_efficientnet_fine_tuning/ , результaты ниже
 ### Transfer Learning:   
   *файл efficientnetb0_w_imagenet.py*     
   *Синяя линия - на валидации*   
