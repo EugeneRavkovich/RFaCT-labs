@@ -17,7 +17,7 @@
   * Визуализация выбранной функции потерь (categorical_crossentropy)
   ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab2/graphs/imagenet_epoch_loss.svg)
 * **Анализ полученных результатов**   
-  На графиках видно, что применение техники transfer learning существенно увеличило качество классификации.При Learning rate 0.001 модель обучалась плохо:    
+  На графиках видно, что применение техники transfer learning существенно увеличило качество классификации. При Learning rate 0.001 модель обучалась плохо:    
   *Синяя линия - на валидации*   
   *Оранжевая линия - на обучении*   
   * Визуализация выбранной метрики качества (categorical_accuracy)
