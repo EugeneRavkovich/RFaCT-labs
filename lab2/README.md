@@ -1,11 +1,4 @@
 # 1. Обучить нейронную сеть EfficientNet-B0 (случайное начальное приближение) для решения задачи классификации изображений Oregon Wildlife   
-* **Описание архитетуры:**   
-  ```
-  def build_model():
-  inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  outputs = tf.keras.applications.EfficientNetB0(include_top=True, weights=None, classes=NUM_CLASSES)(inputs)
-  return tf.keras.Model(inputs=inputs, outputs=outputs)
-  ```
 * **Графики обучения:**  
   *Синяя линия - на валидации*   
   *Оранжевая линия - на обучении*   
@@ -14,16 +7,6 @@
   * Визуализация выбранной функции потерь (categorical_crossentropy)
   ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab2/graphs/random_epoch_loss.svg)    
 # 2. С использованием техники обучения Transfer Learning обучить нейронную сеть EfficientNet-B0 (предобученную на базе изображений imagenet) для решения задачи классификации изображений Oregon Wildlife   
-* **Описание архитектуры:**
-  ```
-  def build_model():
-  inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  model = tf.keras.applications.EfficientNetB0(include_top=False, input_tensor=inputs, weights='imagenet')
-  model.trainable = False
-  x = tf.keras.layers.GlobalAveragePooling2D()(model.output) # (None x H x W x channels --> None x channels(1280))
-  outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
-  return tf.keras.Model(inputs=inputs, outputs=outputs)
-  ```
   * **Графики обучения:**  
   *Синяя линия - на валидации*   
   *Оранжевая линия - на обучении*   
