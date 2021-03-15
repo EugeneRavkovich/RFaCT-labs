@@ -26,7 +26,8 @@
   ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab2/graphs/my_imagenet_epoch_categorical_accuracy.svg)
   * Визуализация выбранной функции потерь (categorical_crossentropy)
   ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab2/graphs/my_imagenet_epoch__loss.svg)
-  # Случайное начальное приближение     
+  # Случайное начальное приближение 
+  - На 27й эпохе обучения вылезла ошибка Out-of-memory; обучить заново я бы не успел. Поэтому на графиках ниже не представлены все 50 эпох обучения.
   *Файл efficientnetb0_random_weights.py*    
   *Синяя линия - на валидации*   
   *Оранжевая линия - на обучении*   
