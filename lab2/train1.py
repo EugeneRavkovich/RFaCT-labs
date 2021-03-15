@@ -92,8 +92,6 @@ def main():
   
 
   train_dataset = train_dataset.batch(batch_size=BATCH_SIZE, drop_remainder=True)
-  train_dataset = train_dataset.perfetch(tf.data.experimental.AUTOTUNE)
-  
 
   validation_dataset = validation_dataset.batch(batch_size=BATCH_SIZE, deop_remainder=True)
   
