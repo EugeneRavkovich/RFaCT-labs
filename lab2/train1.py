@@ -63,6 +63,9 @@ def build_model():
   outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
   return tf.keras.Model(inputs=inputs, outputs=outputs)
 
+def input_preprocess(image, label):
+  label = tf.one_hot(label, NUM_CLASSES)
+  return image, label
 
 def main():
   args = argparse.ArgumentParser()
@@ -73,6 +76,15 @@ def main():
   train_size = int(TRAIN_SIZE * 0.7 / BATCH_SIZE)
   train_dataset = dataset.take(train_size)
   validation_dataset = dataset.skip(train_size)
+  
+  train_dataset = train_dataset.map(
+    input_preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE
+  )
+  train_dataset = train_dataset.prefetch(tf.data.experimental.AUTOTUNE)
+  validation_dataset = validation_dataset.map(input_preprocess)
+
+  
+  
 
   model = build_model()
 
