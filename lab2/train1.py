@@ -91,7 +91,7 @@ def main():
   validation_dataset = validation_dataset.map(lambda image, label: (tf.image.resize(image, size), label))
   
 
-  train_dataset = tarin_dataset.batch(batch_size=BATCH_SIZE, drop_remainder=True)
+  train_dataset = train_dataset.batch(batch_size=BATCH_SIZE, drop_remainder=True)
   train_dataset = train_dataset.perfetch(tf.data.experimental.AUTOTUNE)
   
 
