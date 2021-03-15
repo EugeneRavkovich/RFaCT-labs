@@ -93,7 +93,7 @@ def main():
 
   train_dataset = train_dataset.batch(batch_size=BATCH_SIZE, drop_remainder=True)
 
-  validation_dataset = validation_dataset.batch(batch_size=BATCH_SIZE, deop_remainder=True)
+  validation_dataset = validation_dataset.batch(batch_size=BATCH_SIZE, drop_remainder=True)
   
   model = build_model()
 
