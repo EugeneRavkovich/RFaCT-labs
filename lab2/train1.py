@@ -76,10 +76,6 @@ def build_model():
   )
   return model
 
-def input_preprocess(image, label):
-  label = tf.one_hot(label, NUM_CLASSES)
-  return image, label
-
 def main():
   args = argparse.ArgumentParser()
   args.add_argument('--train', type=str, help='Glob pattern to collect train tfrecord files, use single quote to escape *')
@@ -94,13 +90,11 @@ def main():
   train_dataset = train_dataset.map(lambda image, label: (tf.image.resize(image, size), label))
   validation_dataset = validation_dataset.map(lambda image, label: (tf.image.resize(image, size), label))
   
-  train_dataset = train_dataset.map(
-    input_preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE
-  )
+
   train_dataset = tarin_dataset.batch(batch_size=BATCH_SIZE, drop_remainder=True)
   train_dataset = train_dataset.perfetch(tf.data.experimental.AUTOTUNE)
   
-  validation_dataset = validation_dataset.map(input_preprocess)
+
   validation_dataset = validation_dataset.batch(batch_size=BATCH_SIZE, deop_remainder=True)
   
   model = build_model()
