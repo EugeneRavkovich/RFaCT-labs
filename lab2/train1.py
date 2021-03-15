@@ -60,8 +60,6 @@ def build_model():
   model = tf.keras.applications.EfficientNetB0(input_tensor=inputs, include_top=False, weights="imagenet")
   model.trainable = False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
-  #x = tf.keras.layers.BatchNormalization()(x)
-  x = tf.keras.layers.Flatten()(x)
   outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
   return tf.keras.Model(inputs=inputs, outputs=outputs)
 
@@ -71,7 +69,7 @@ def main():
   args.add_argument('--train', type=str, help='Glob pattern to collect train tfrecord files, use single quote to escape *')
   args = args.parse_args()
 
-  dataset = create_dataset(glob.glob(args.train), BATCH_SIZE).shuffle(8)
+  dataset = create_dataset(glob.glob(args.train), BATCH_SIZE)
   train_size = int(TRAIN_SIZE * 0.7 / BATCH_SIZE)
   train_dataset = dataset.take(train_size)
   validation_dataset = dataset.skip(train_size)
