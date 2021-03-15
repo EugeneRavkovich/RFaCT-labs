@@ -55,13 +55,30 @@ def create_dataset(filenames, batch_size):
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
+img_augmentation = tf.keras.Sequential([
+  tf.keras.layers.experimental.preprocessing.RandomRotation(factor=0.15),
+  tf.keras.layers.experimental.preprocessing.RandomTranslation(height_factor=0.1, width_factor=0.1),
+  tf.keras.layers.experimental.preprocessing.RandomFlip(),
+  tf.keras.layers.experimental.preprocessing.RandomContrast(factor=0.1),
+])
+
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  model = tf.keras.applications.EfficientNetB0(input_tensor=inputs, include_top=False, weights="imagenet")
+  x = img_augmentation(inputs)
+  model = tf.keras.applications.EfficientNetB0(input_tensor=x, include_top=False, weights="imagenet")
   model.trainable = False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
   outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
-  return tf.keras.Model(inputs=inputs, outputs=outputs)
+  model.compile(
+    optimizer=tf.optimizers.Adam(lr=0.001),
+    loss=tf.keras.losses.categorical_crossentropy,
+    metrics=[tf.keras.metrics.categorical_accuracy],
+  )
+  return model
+
+def input_preprocess(image, label):
+  label = tf.one_hot(label, NUM_CLASSES)
+  return image, label
 
 def main():
   args = argparse.ArgumentParser()
@@ -73,14 +90,27 @@ def main():
   train_dataset = dataset.take(train_size)
   validation_dataset = dataset.skip(train_size)
 
+  size = (RESIZE_TO, RESIZE_TO)
+  train_dataset = train_dataset.map(lambda image, label: (tf.image.resize(image, size), label))
+  validation_dataset = validation_dataset.map(lambda image, label: (tf.image.resize(image, size), label))
+  
+  train_dataset = train_dataset.map(
+    input_preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE
+  )
+  train_dataset = tarin_dataset.batch(batch_size=BATCH_SIZE, drop_remainder=True)
+  train_dataset = train_dataset.perfetch(tf.data.experimental.AUTOTUNE)
+  
+  validation_dataset = validation_dataset.map(input_preprocess)
+  validation_dataset = validation_dataset.batch(batch_size=BATCH_SIZE, deop_remainder=True)
+  
   model = build_model()
-
+"""
   model.compile(
     optimizer=tf.optimizers.Adam(lr=0.001),
     loss=tf.keras.losses.categorical_crossentropy,
     metrics=[tf.keras.metrics.categorical_accuracy],
   )
-
+"""
   log_dir='{}/owl-{}'.format(LOG_DIR, time.time())
   model.fit(
     train_dataset,
