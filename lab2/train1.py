@@ -77,6 +77,10 @@ def main():
   train_dataset = dataset.take(train_size)
   validation_dataset = dataset.skip(train_size)
   
+  size = (RESIZE_TO, RESIZE_TO)
+  train_dataset = train_dataset.map(lambda image, label: (tf.image.resize(image, size), label))
+  validation_dataset = validation_dataset.map(lambda image, label: (tf.image.resize(image, size), label))
+  
   train_dataset = train_dataset.map(
     input_preprocess, num_parallel_calls=tf.data.experimental.AUTOTUNE
   )
