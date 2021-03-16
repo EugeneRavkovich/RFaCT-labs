@@ -83,7 +83,7 @@ def main():
     loss=tf.keras.losses.categorical_crossentropy,
     metrics=[tf.keras.metrics.categorical_accuracy],
   )
-
+"""
   log_dir='{}/owl-{}'.format(LOG_DIR, time.time())
   model.fit(
     train_dataset,
@@ -93,7 +93,7 @@ def main():
       tf.keras.callbacks.TensorBoard(log_dir),
     ]
   )
-
+"""
 
 if __name__ == '__main__':
     main()
