@@ -34,7 +34,7 @@ def parse_proto_example(proto):
   }
   example = tf.io.parse_single_example(proto, keys_to_features)
   example['image'] = tf.image.decode_jpeg(example['image/encoded'], channels=3)
-  example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.float32)
+  example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.int32)
   example['image'] = tf.image.resize(example['image'], tf.constant([RESIZE_TO, RESIZE_TO]))
   return example['image'], tf.one_hot(example['image/label'], depth=NUM_CLASSES)
 
@@ -51,16 +51,15 @@ def create_dataset(filenames, batch_size):
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
-    .map(normalize)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
 
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  model = tf.keras.applications.EfficientNetB0(include_top=False, input_tensor=inputs, weights='imagenet')
+  model = tf.keras.applications.EfficientNetB0(include_top=False, weights='imagenet')(inputs)
   model.trainable = False
-  x = tf.keras.layers.GlobalAveragePooling2D()(model.output) # (None x H x W x channels --> None x channels(1280))
+  x = tf.keras.layers.GlobalAveragePooling2D()(model)
   outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
   return tf.keras.Model(inputs=inputs, outputs=outputs)
 
@@ -73,6 +72,8 @@ def main():
   dataset = create_dataset(glob.glob(args.train), BATCH_SIZE)
   train_size = int(TRAIN_SIZE * 0.7 / BATCH_SIZE)
   train_dataset = dataset.take(train_size)
+  for x, y in train_dataset.take(1):
+    print(x, y)
   validation_dataset = dataset.skip(train_size)
 
   model = build_model()
