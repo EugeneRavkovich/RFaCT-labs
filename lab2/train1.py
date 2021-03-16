@@ -51,16 +51,15 @@ def create_dataset(filenames, batch_size):
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
-    .map(normalize)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
 
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  x = tf.keras.applications.EfficientNetB0(include_top=False, weights='imagenet')(inputs)
+  x = tf.keras.applications.EfficientNetB0(include_top=False, input_tensor=inputs, weights='imagenet')
   x.trainable = False
-  x = tf.keras.layers.GlobalAveragePooling2D()(x) 
+  x = tf.keras.layers.GlobalAveragePooling2D()(x.outputs) 
   outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
   return tf.keras.Model(inputs=inputs, outputs=outputs)
 
@@ -78,7 +77,7 @@ def main():
   model = build_model()
 
   model.compile(
-    optimizer=tf.optimizers.Adam(lr=0.0001),
+    optimizer=tf.optimizers.Adam(lr=0.001),
     loss=tf.keras.losses.categorical_crossentropy,
     metrics=[tf.keras.metrics.categorical_accuracy],
   )
