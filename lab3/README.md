@@ -28,4 +28,4 @@
 ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab3/graphs/fixed-step-exp%20comparision/fixed_step_exp_loss_comparision.png)
 По финальным графикам видно, что применение политик изменения темпа обучения не дало значительного прироста в качестве (по крайней мере при опробованных параметрах), но достаточно ощутимо ускорило время обучения.
 ### Ссылки
-https://github.com/AlexanderSoroka/CNN-oregon-wildlife-classifier
+1. https://github.com/AlexanderSoroka/CNN-oregon-wildlife-classifier
