@@ -8,6 +8,11 @@
   #### При learning rate 0.001 наблюдается наилучшее качество на валидации и наивысшая скорость обучения на заданом промежутке. Несмотря на небольшое переобучение (см. график ниже), его можно принять оптимальным. 
 ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab3/graphs/lr_comparision/lr_0.001_overfittin.svg)
 # 2. Step Decay
+* Визуализация метрик качества (categorical_accuracy)
+![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab3/graphs/step%20decay%20comparision/step_decay_metric_comparision.png)
+* Визуализация функций потерь (categorical_crossentropy)
+![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab3/graphs/step%20decay%20comparision/step_decay_loss_comparision.png)
+ #### Оптимальные параметры: initial_rate=0.1, drop=0.4, epochs_drop=3. В случае применения политики Step Decay все из опробованных комбинаций параметров приводят к уменьшению времени обучения, а выбранная комбинация показывает наилучшее качество на валидации.
 # 3. Exponential Decay
 * Визуализация метрик качества (categorical_accuracy)
 ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab3/graphs/exp%20decay%20comparision/exp_decay_metric_comparision.png)
