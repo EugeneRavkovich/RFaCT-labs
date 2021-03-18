@@ -66,8 +66,9 @@ def build_model():
 
 def exp_decay(epoch):
     initial_rate = 0.1
-    k = 0.1
+    k = 0.5
     lr = initial_rate * exp(-k*epoch)
+    print(f'{lr}')
     return lr
 
 
@@ -80,7 +81,7 @@ def main():
   train_size = int(TRAIN_SIZE * 0.7 / BATCH_SIZE)
   train_dataset = dataset.take(train_size)
   validation_dataset = dataset.skip(train_size)
-  LR = LearningRateScheduler(exp_decay)
+  LearningRateScheduler(exp_decay)
   model = build_model()
 
   model.compile(
@@ -96,7 +97,7 @@ def main():
     validation_data=validation_dataset,
     callbacks=[
       tf.keras.callbacks.TensorBoard(log_dir),
-      LR
+      LearningRateScheduler(exp_decay)
     ]
   )
 
