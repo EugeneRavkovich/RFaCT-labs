@@ -66,8 +66,8 @@ def build_model():
 
 
 def exp_decay(epoch):
-    initial_rate = 0.01
-    k = 0.1
+    initial_rate = 0.1
+    k = 0.2
     lr = initial_rate * exp(-k*epoch)
     print(f'{lr}')
     return lr
