@@ -1,8 +1,8 @@
 *Везде, кроме пункта \*, представлены графики для этапа валидации*
 # 1. С использованием [1] и техники обучения Transfer Learning обучить нейронную сеть EfficientNet-B0 (предварительно обученную на базе изображений imagenet) для решения задачи классификации изображений Oregon Wildlife с использованием фиксированных темпов обучения 0.1, 0.01, 0.001, 0.0001     
-  * Визуализация метрики качества (categorical_accuracy)
+  * Визуализация метрик качества (categorical_accuracy)
   ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab3/graphs/lr_comparision/diff_LR_validation.categorical_accuracy.png)
-  * Визуализация функции потерь (categorical_crossentropy)
+  * Визуализация функций потерь (categorical_crossentropy)
   ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab3/graphs/lr_comparision/diff_LR_validation.loss.png)
   #### При learning rate 0.001 наблюдается наилучшее качество на валидации и наивысшая скорость обучения на заданом промежутке. Несмотря на небольшое переобучение (см. график ниже), его можно принять оптимальным.    
   \*
