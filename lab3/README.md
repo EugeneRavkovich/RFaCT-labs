@@ -6,7 +6,7 @@
   ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab3/graphs/lr_comparision/diff_LR_validation.loss.png)
   
   #### При learning rate 0.001 наблюдается наилучшее качество на валидации и наивысшая скорость обучения на заданом промежутке. Несмотря на небольшое переобучение (см. график ниже), его можно принять оптимальным. 
-![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab3/graphs/lr_comparision/lr_0.001_validation_overfitting.svg)
+![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab3/graphs/lr_comparision/lr_0.001_overfittin.svg)
 # 2. Step Decay
 # 3. Exponential Decay
 * Визуализация метрик качества (categorical_accuracy)
