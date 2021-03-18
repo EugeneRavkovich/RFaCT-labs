@@ -80,11 +80,10 @@ def main():
   train_size = int(TRAIN_SIZE * 0.7 / BATCH_SIZE)
   train_dataset = dataset.take(train_size)
   validation_dataset = dataset.skip(train_size)
-  LR = LearningRateScheduler(exp_decay)
   model = build_model()
 
   model.compile(
-    optimizer=tf.optimizers.Adam(lr=LR),
+    optimizer=tf.optimizers.Adam(),
     loss=tf.keras.losses.categorical_crossentropy,
     metrics=[tf.keras.metrics.categorical_accuracy],
   )
@@ -96,7 +95,7 @@ def main():
     validation_data=validation_dataset,
     callbacks=[
       tf.keras.callbacks.TensorBoard(log_dir),
-      LR
+      LearningRateScheduler(exp_decay)
     ]
   )
 
