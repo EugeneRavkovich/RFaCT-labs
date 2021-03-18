@@ -14,4 +14,5 @@
 * Визуализация функций потерь (categorical_crossentropy)
 ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab3/graphs/exp%20decay%20comparision/exp_decay_loss_comparision.png)
    #### Оптимальные параметры в данном случае: initial_rate=0.1, k=0.3. Использование этих параметров приводит к уменьшению времени обучения и к наивысшему показателю метрики качества на валидации.
+ # 4. Анализ полученных результатов
  
