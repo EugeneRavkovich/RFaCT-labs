@@ -14,18 +14,18 @@
 ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab3/graphs/step%20decay%20comparision/step_decay_metric_comparision.png)
 * Визуализация функций потерь (categorical_crossentropy)
 ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab3/graphs/step%20decay%20comparision/step_decay_loss_comparision.png)
- #### Оптимальные параметры: initial_rate=0.1, drop=0.4, epochs_drop=3. В случае применения политики Step Decay все из опробованных комбинаций параметров приводят к уменьшению времени обучения, а выбранная комбинация показывает наилучшее качество на валидации.
+ #### Оптимальные параметры: начальное значение темпа обучения - 0.1 со снижением в 0.4 раза каждые 3 эпохи. Выбранная комбинация параметров приводит к наивысшему значению метрики качества на валидации. Алгоритм достигает предела сходимости на 28-й эпохе с качеством в 89.22% и к концу обчения превосходит алгоритм с оптимальным фиксированным темпом обучения на 0.39%.
 # 3. Exponential Decay
 * Визуализация метрик качества (categorical_accuracy)
 ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab3/graphs/exp%20decay%20comparision/exp_decay_metric_comparision.png)
 * Визуализация функций потерь (categorical_crossentropy)
 ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab3/graphs/exp%20decay%20comparision/exp_decay_loss_comparision.png)
-   #### Оптимальные параметры в данном случае: initial_rate=0.1, k=0.3. Использование этих параметров приводит к уменьшению времени обучения и к наивысшему показателю метрики качества на валидации.
+   #### Оптимальные параметры в данном случае: начальное значение темпа обучения - 0.1 с фактором наклона экспоненциальной кривой 0.3. При такой комбинации достигается максимальное значение метрики качества на валидации в 89.17%. Алгоритм достигает предела сходимости на 30-й эпохе и к концу обучения превосходит алгоритм с оптимальным фиксированным темпом обучения на 0.34%.
  # 4. Анализ полученных результатов
  * Визуализация метрик качества (categorical_accuracy)
 ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab3/graphs/fixed-step-exp%20comparision/fixed_step_exp_metric_comparision.png)
 * Визуализация функций потерь (categorical_crossentropy)
 ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab3/graphs/fixed-step-exp%20comparision/fixed_step_exp_loss_comparision.png)
-По финальным графикам видно, что применение политик изменения темпа обучения не дало значительного прироста в качестве (по крайней мере при опробованных параметрах), но достаточно ощутимо ускорило время обучения.
+По финальным графикам видно, что применение политик изменения темпа обучения не дало значительного прироста в качестве (по крайней мере при опробованных параметрах), но достаточно ощутимо ускорило сходимость алгоритма
 ### Ссылки
 1. https://github.com/AlexanderSoroka/CNN-oregon-wildlife-classifier
