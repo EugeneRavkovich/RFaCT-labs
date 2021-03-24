@@ -32,11 +32,11 @@ TRAIN_SIZE = 12786
 def parse_proto_example(proto):
   keys_to_features = {
     'image/encoded': tf.io.FixedLenFeature((), tf.string, default_value=''),
-    'image/label': tf.io.FixedLenFeature([], tf.int64, default_value=tf.zeros([], dtype=np.int64))
+    'image/label': tf.io.FixedLenFeature([], tf.int64, default_value=tf.zeros([], dtype=tf.int64))
   }
   example = tf.io.parse_single_example(proto, keys_to_features)
   example['image'] = tf.image.decode_jpeg(example['image/encoded'], channels=3)
-  example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.uint8)
+  example['image'] = tf.image.convert_image_dtype(example['image'], dtype=np.uint8)
   example['image'] = tf.image.resize(example['image'], tf.constant([RESIZE_TO, RESIZE_TO]))
   return example['image'], tf.one_hot(example['image/label'], depth=NUM_CLASSES)
 
@@ -50,7 +50,7 @@ def transforms(image, label):
     A.RandomCrop(224, 224)
   ])
   #transform = A.augmentations.transforms.RandomBrightnessContrast(0.2, 0.2)
-  return np.array(transform(image=image)['image']), label
+  return transform(image=image)['image'], label
 
 def create_dataset(filenames, batch_size):
   """Create dataset from tfrecords file
