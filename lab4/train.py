@@ -32,7 +32,7 @@ TRAIN_SIZE = 12786
 def parse_proto_example(proto):
   keys_to_features = {
     'image/encoded': tf.io.FixedLenFeature((), tf.string, default_value=''),
-    'image/label': tf.io.FixedLenFeature([], tf.int64, default_value=tf.zeros([], dtype=tf.int64))
+    'image/label': tf.io.FixedLenFeature([], tf.int64, default_value=tf.zeros([], dtype=np.int64))
   }
   example = tf.io.parse_single_example(proto, keys_to_features)
   example['image'] = tf.image.decode_jpeg(example['image/encoded'], channels=3)
