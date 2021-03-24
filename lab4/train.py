@@ -45,7 +45,7 @@ def normalize(image, label):
   return tf.image.per_image_standardization(image), label
 
 def transforms(image, label):
-  image.numpy()
+  image = np.array(image)
   transform = A.augmentations.transforms.RandomBrightnessContrast(0.2, 0.2)
   return transform(image=image)['image'], label
 
