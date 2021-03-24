@@ -15,7 +15,9 @@ from tensorflow.python import keras as keras
 from tensorflow.python.keras.callbacks import LearningRateScheduler
 from math import exp
 import albumentations as A
-from tensorflow.python.keras import backend as K
+import tensorflow.experimental.numpy as tnp
+
+tnp.experimental_enable_numpy_behavior()
 
 sess = K.get_session()
 
@@ -41,7 +43,7 @@ def parse_proto_example(proto):
   example['image'] = tf.image.decode_jpeg(example['image/encoded'], channels=3)
   example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.uint8)
   example['image'] = tf.image.resize(example['image'], tf.constant([RESIZE_TO, RESIZE_TO]))
-  example['image'] = sess.run(example['image'])
+  example['image'] = example['image'].numpy()
   return example['image'], tf.one_hot(example['image/label'], depth=NUM_CLASSES)
 
 
