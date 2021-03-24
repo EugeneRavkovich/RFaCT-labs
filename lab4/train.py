@@ -44,7 +44,7 @@ def parse_proto_example(proto):
 def normalize(image, label):
   return tf.image.per_image_standardization(image), label
 
-def transform(image, label):
+def transforms(image, label):
   transform = A.augmenations.transforms.RandomBrightnessContrast(0.2, 0.2)
   return transform(image)['image'], label
 
@@ -56,7 +56,7 @@ def create_dataset(filenames, batch_size):
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
-    .map(transform)\
+    .map(transforms)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
