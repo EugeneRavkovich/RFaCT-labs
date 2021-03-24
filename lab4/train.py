@@ -50,7 +50,7 @@ def transforms(image, label):
     A.RandomCrop(224, 224)
   ])
   #transform = A.augmentations.transforms.RandomBrightnessContrast(0.2, 0.2)
-  return transform(image=image.numpy())['image'], label
+  return transform(image=np.array(image))['image'], label
 
 def create_dataset(filenames, batch_size):
   """Create dataset from tfrecords file
