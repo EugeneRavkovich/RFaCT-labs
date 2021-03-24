@@ -39,7 +39,7 @@ def parse_proto_example(proto):
   example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.uint8)
   example['image'] = tf.image.resize(example['image'], tf.constant([RESIZE_TO, RESIZE_TO]))
   print(type(example['image']))
-  print(example['image])
+  print(example['image'])
   return example['image'], tf.one_hot(example['image/label'], depth=NUM_CLASSES)
 
 
