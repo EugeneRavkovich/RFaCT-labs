@@ -38,6 +38,7 @@ def parse_proto_example(proto):
   example['image'] = tf.image.decode_jpeg(example['image/encoded'], channels=3)
   example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.uint8)
   example['image'] = tf.image.resize(example['image'], tf.constant([RESIZE_TO+26, RESIZE_TO+26]))
+  print(type(example['image']))
   return example['image'], tf.one_hot(example['image/label'], depth=NUM_CLASSES)
 
 
@@ -59,7 +60,6 @@ def create_dataset(filenames, batch_size):
   """
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
-    .map(transforms)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
   
