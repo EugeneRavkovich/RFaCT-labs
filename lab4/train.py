@@ -46,7 +46,7 @@ def normalize(image, label):
 
 def transforms(image, label):
   transform = A.augmentations.transforms.RandomBrightnessContrast(0.2, 0.2)
-  return transform(image=image.numpy())['image'], label
+  return transform(image=image)['image'], label
 
 def create_dataset(filenames, batch_size):
   """Create dataset from tfrecords file
