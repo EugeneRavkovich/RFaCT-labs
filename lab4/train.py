@@ -46,21 +46,27 @@ def normalize(image, label):
 
 def transforms(image, label):
   transform = A.augmentations.transforms.RandomBrightnessContrast(0.2, 0.2)
-  return transform(image=image)['image'], label
+  return transform(image=image.numpy())['image'], label
 
 def create_dataset(filenames, batch_size):
   """Create dataset from tfrecords file
   :tfrecords_files: Mask to collect tfrecords file of dataset
   :returns: tf.data.Dataset
-  """
+  
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .map(transforms)\
     .cache()\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
-
-
+  """
+  return tf.data.TFRecordDataset(filenames)\
+    .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
+    .cache()\
+    .map(transforms)\
+    .batch(batch_size)\
+    .prefetch(tf.data.AUTOTUNE)
+  
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
   model = tf.keras.applications.EfficientNetB0(include_top=False, input_tensor=inputs, weights='imagenet')
