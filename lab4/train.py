@@ -45,7 +45,7 @@ def normalize(image, label):
   return tf.image.per_image_standardization(image), label
 
 def transforms(image):
-  transform = A.augmentations.crops.transforms.RandomCrop(height=224, width=224)
+  transform = A.RandomCrop(height=224, width=224)
   aug_image = transform(image=image)["image"]
   return aug_image
 
