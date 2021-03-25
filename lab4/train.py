@@ -84,9 +84,13 @@ def main():
   validation_dataset = dataset.skip(train_size)
   LearningRateScheduler(exp_decay)
   model = build_model()
-
+  
+  for x, y in dataset.take(1):
+    print(x)
+    print(y)
+  
   model.compile(
-    optimizer=tf.optimizers.Adam(lr=LR),
+    optimizer=tf.optimizers.Adam(),
     loss=tf.keras.losses.categorical_crossentropy,
     metrics=[tf.keras.metrics.categorical_accuracy],
   )
