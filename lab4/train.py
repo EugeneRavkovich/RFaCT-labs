@@ -46,7 +46,7 @@ def normalize(image, label):
 
 def transforms(image):
   transform = A.Compose([
-    A.PadIfNeeded(min_height=250, min_width=250, border_mode=2)
+    A.PadIfNeeded(min_height=250, min_width=250, border_mode=2),
     A.RandomCrop(height=224, width=224)
   ])
   aug_image = transform(image=image)["image"]
