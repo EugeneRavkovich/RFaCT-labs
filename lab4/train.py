@@ -105,7 +105,7 @@ def main():
     for j in x:
       #tf.keras.preprocessing.image.save_img(path=LOG_DIR, x=j, file_format='.jpg')
       img = Image.fromarray(j.numpy(), 'RGB')
-      img.save(os.path.join(LOG_DIR, 'img.jpg'))
+      img.save('img.jpg')
       break
   
   model.compile(
