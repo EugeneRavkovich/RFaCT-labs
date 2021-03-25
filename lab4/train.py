@@ -39,7 +39,7 @@ def parse_proto_example(proto):
   example = tf.io.parse_single_example(proto, keys_to_features)
   example['image'] = tf.image.decode_jpeg(example['image/encoded'], channels=3)
   example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.uint8)
-  example['image'] = tf.image.resize(example['image'], tf.constant([RESIZE_TO, RESIZE_TO]))
+  example['image'] = tf.image.resize(example['image'], tf.constant([RESIZE_TO+26, RESIZE_TO+26]))
   return example['image'], tf.one_hot(example['image/label'], depth=NUM_CLASSES)
 
 
@@ -48,8 +48,8 @@ def normalize(image, label):
 
 def transforms(image):
   transform = A.Compose([
-    A.PadIfNeeded(min_height=250, min_width=250, border_mode=2),
-    A.RandomCrop(height=224, width=224)
+    #A.PadIfNeeded(min_height=250, min_width=250, border_mode=2),
+    A.RandomCrop(height=224, width=224, p=0.5)
   ])
   aug_image = transform(image=image)["image"]
   return aug_image
