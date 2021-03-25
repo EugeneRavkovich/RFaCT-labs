@@ -50,7 +50,7 @@ def transforms(image):
   return aug_image
 
 def process_data(image, label):
-  aug_img = tf.numpy_function(func=transforms, inp=[image])
+  aug_img = tf.numpy_function(func=transforms, inp=[image], Tout=tf.float32)
   return aug_img, label
   
   
