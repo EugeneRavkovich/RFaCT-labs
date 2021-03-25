@@ -39,7 +39,7 @@ def parse_proto_example(proto):
   example = tf.io.parse_single_example(proto, keys_to_features)
   example['image'] = tf.image.decode_jpeg(example['image/encoded'], channels=3)
   example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.uint8)
-  example['image'] = tf.image.resize(example['image'], tf.constant([250, 250]))
+  example['image'] = tf.image.resize(example['image'], tf.constant([224, 224]))
   return example['image'], tf.one_hot(example['image/label'], depth=NUM_CLASSES)
 
 
@@ -67,7 +67,6 @@ def create_dataset(filenames, batch_size):
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
-    .map(process_data)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
@@ -83,7 +82,7 @@ def build_model():
 
 def exp_decay(epoch):
     initial_rate = 0.1
-    k = 0.15
+    k = 0.3
     lr = initial_rate * exp(-k*epoch)
     print(f'{lr}')
     return lr
@@ -100,15 +99,10 @@ def main():
   validation_dataset = dataset.skip(train_size)
   LearningRateScheduler(exp_decay)
   model = build_model()
-  """
+  
   for x, y in dataset.take(1):
-    for j in x:
-      print(j)
-      #tf.keras.preprocessing.image.save_img(path=LOG_DIR, x=j, file_format='.jpg')
-      img = Image.fromarray(j.numpy(), 'RGB')
-      img.save('img.jpg')
-      break
-  """
+    print(x)
+ 
   model.compile(
     optimizer=tf.optimizers.Adam(),
     loss=tf.keras.losses.categorical_crossentropy,
