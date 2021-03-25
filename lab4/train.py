@@ -100,8 +100,9 @@ def main():
   model = build_model()
   
   for x, y in dataset.take(1):
-    print(x)
-    tf.keras.preprocessing.image.save_img(path=LOG_DIR, x=x, data_format='.jpg')
+    for j in x:
+      tf.keras.preprocessing.image.save_img(path=LOG_DIR, x=j, data_format='.jpg')
+      break
   
   model.compile(
     optimizer=tf.optimizers.Adam(),
