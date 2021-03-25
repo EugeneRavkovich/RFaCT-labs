@@ -45,7 +45,10 @@ def normalize(image, label):
   return tf.image.per_image_standardization(image), label
 
 def transforms(image):
-  transform = A.RandomCrop(height=224, width=224)
+  transform = A.Compose([
+    A.PadIfNeeded(min_height=250, min_width=250, border_mode=2)
+    A.RandomCrop(height=224, width=224)
+  ])
   aug_image = transform(image=image)["image"]
   return aug_image
 
@@ -98,7 +101,7 @@ def main():
   
   for x, y in dataset.take(1):
     print(x)
-    print(y)
+    tf.keras.preprocessing.image.save_img(path=LOG_DIR, x=x, data_format='.jpg')
   
   model.compile(
     optimizer=tf.optimizers.Adam(),
