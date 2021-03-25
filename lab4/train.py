@@ -101,7 +101,7 @@ def main():
   
   for x, y in dataset.take(1):
     for j in x:
-      tf.keras.preprocessing.image.save_img(path=LOG_DIR, x=j, data_format='.jpg')
+      tf.keras.preprocessing.image.save_img(path=LOG_DIR, x=j, file_format='.jpg')
       break
   
   model.compile(
