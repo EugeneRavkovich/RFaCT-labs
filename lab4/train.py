@@ -14,6 +14,7 @@ import time
 from tensorflow.python import keras as keras
 from tensorflow.python.keras.callbacks import LearningRateScheduler
 from math import exp
+import albumentations as A
 
 # Avoid greedy memory allocation to allow shared GPU usage
 gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -43,7 +44,16 @@ def parse_proto_example(proto):
 def normalize(image, label):
   return tf.image.per_image_standardization(image), label
 
+def transforms(image):
+  transform = A.augmentations.crops.transforms.RandomCrop(height=224, width=224)
+  aug_image = transform(image=image)["image"]
+  return aug_image
 
+def process_data(image, label):
+  aug_img = tf.numpy_function(func=transforms, inp=[image], Tout=tf.uint8)
+  return aug_img, label
+  
+  
 def create_dataset(filenames, batch_size):
   """Create dataset from tfrecords file
   :tfrecords_files: Mask to collect tfrecords file of dataset
@@ -52,6 +62,7 @@ def create_dataset(filenames, batch_size):
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
+    .map(process_data)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
