@@ -78,7 +78,7 @@ def build_model():
   inputs = tf.keras.Input(shape=(250, 250, 3))
   q = img_augmentations(inputs)
   print(q.shape)
-  model = tf.keras.applications.EfficientNetB0(include_top=False, input_tensor=q, weights='imagenet')
+  model = tf.keras.applications.EfficientNetB0(include_top=False, weights='imagenet')(q)
   model.trainable = False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
   outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
