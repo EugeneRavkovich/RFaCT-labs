@@ -75,8 +75,9 @@ img_augmentations = tf.keras.models.Sequential([
 ])
 
 def build_model():
-  inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
+  inputs = tf.keras.Input(shape=(250, 250, 3))
   q = img_augmentations(inputs)
+  print(q.shape)
   model = tf.keras.applications.EfficientNetB0(include_top=False, input_tensor=q, weights='imagenet')
   model.trainable = False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
