@@ -102,6 +102,7 @@ def main():
   
   for x, y in dataset.take(1):
     for j in x:
+      print(j)
       #tf.keras.preprocessing.image.save_img(path=LOG_DIR, x=j, file_format='.jpg')
       img = Image.fromarray(j.numpy(), 'RGB')
       img.save('img.jpg')
