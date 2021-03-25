@@ -15,6 +15,7 @@ from tensorflow.python import keras as keras
 from tensorflow.python.keras.callbacks import LearningRateScheduler
 from math import exp
 import albumentations as A
+from PIL import Image
 
 # Avoid greedy memory allocation to allow shared GPU usage
 gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -101,7 +102,9 @@ def main():
   
   for x, y in dataset.take(1):
     for j in x:
-      tf.keras.preprocessing.image.save_img(path=LOG_DIR, x=j, file_format='.jpg')
+      #tf.keras.preprocessing.image.save_img(path=LOG_DIR, x=j, file_format='.jpg')
+      img = Image.fromarray(j, 'RGB')
+      img.save(os.path.join(LOG_DIR, 'img.jpg'))
       break
   
   model.compile(
