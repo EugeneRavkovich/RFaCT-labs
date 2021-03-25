@@ -67,6 +67,7 @@ def create_dataset(filenames, batch_size):
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
+    .map(process_data)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
@@ -99,7 +100,7 @@ def main():
   validation_dataset = dataset.skip(train_size)
   LearningRateScheduler(exp_decay)
   model = build_model()
-  
+  """
   for x, y in dataset.take(1):
     for j in x:
       print(j)
@@ -107,7 +108,7 @@ def main():
       img = Image.fromarray(j.numpy(), 'RGB')
       img.save('img.jpg')
       break
-  
+  """
   model.compile(
     optimizer=tf.optimizers.Adam(),
     loss=tf.keras.losses.categorical_crossentropy,
