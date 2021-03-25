@@ -48,7 +48,7 @@ def normalize(image, label):
 
 def transforms(image):
   transform = A.Compose([
-    A.PadIfNeeded(min_height=250, min_width=250, border_mode=2),
+    A.PadIfNeeded(min_height=300, min_width=300, border_mode=2),
     A.RandomCrop(height=224, width=224)
   ])
   aug_image = transform(image=image)["image"]
@@ -67,6 +67,7 @@ def create_dataset(filenames, batch_size):
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
+    .map(process_data)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
