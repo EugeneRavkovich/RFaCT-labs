@@ -39,7 +39,7 @@ def parse_proto_example(proto):
   example = tf.io.parse_single_example(proto, keys_to_features)
   example['image'] = tf.image.decode_jpeg(example['image/encoded'], channels=3)
   example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.uint8)
-  example['image'] = tf.image.resize(example['image'], tf.constant([RESIZE_TO, RESIZE_TO]), method='nearest')
+  example['image'] = tf.image.resize(example['image'], tf.constant([250, 250]), method='nearest')
   return example['image'], tf.one_hot(example['image/label'], depth=NUM_CLASSES)
 
 
@@ -67,14 +67,17 @@ def create_dataset(filenames, batch_size):
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
-    .map(process_data)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
+img_augmentations = tf.keras.models.Sequential([
+  tf.keras.layers.experimental.preprocessing.RandomCrop(224,224)
+])
 
 def build_model():
   inputs = tf.keras.Input(shape=(RESIZE_TO, RESIZE_TO, 3))
-  model = tf.keras.applications.EfficientNetB0(include_top=False, input_tensor=inputs, weights='imagenet')
+  q = img_augmentations(inputs)
+  model = tf.keras.applications.EfficientNetB0(include_top=False, input_tensor=q, weights='imagenet')
   model.trainable = False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
   outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
