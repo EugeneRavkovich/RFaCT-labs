@@ -39,7 +39,7 @@ def parse_proto_example(proto):
   example = tf.io.parse_single_example(proto, keys_to_features)
   example['image'] = tf.image.decode_jpeg(example['image/encoded'], channels=3)
   example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.uint8)
-  example['image'] = tf.image.resize(example['image'], tf.constant([RESIZE_TO, RESIZE_TO]))
+  example['image'] = tf.image.resize(example['image'], tf.constant([RESIZE_TO, RESIZE_TO]), method='nearest')
   return example['image'], tf.one_hot(example['image/label'], depth=NUM_CLASSES)
 
 
@@ -56,7 +56,7 @@ def transforms(image):
   return aug_image
 
 def process_data(image, label):
-  aug_img = tf.numpy_function(func=transforms, inp=[image], Tout=tf.float32)
+  aug_img = tf.numpy_function(func=transforms, inp=[image], Tout=tf.uint8)
   return aug_img, label
   
 def foo(image, label):
