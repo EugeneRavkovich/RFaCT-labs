@@ -50,7 +50,7 @@ def transforms(image):
   transform = A.Compose([
     #A.PadIfNeeded(min_height=250, min_width=250, border_mode=0, value=255),
     #A.RandomCrop(height=224, width=224)
-    A.RandomBrightnessContrast(brightness_limit=0.9, contrast_limit=0.9)
+    A.RandomBrightnessContrast(brightness_limit=0.1, contrast_limit=2)
   ])
   aug_image = transform(image=image)["image"]
   return aug_image
@@ -72,7 +72,7 @@ def create_dataset(filenames, batch_size):
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
-    .map(foo)\
+    .map(process_data)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
