@@ -61,7 +61,7 @@ def process_data(image, label):
  """
   
 def procces_unit(image, label):
-  img = tf.image.adjust_contrast(image, 4)
+  img = tf.image.adjust_contrast(image, 0.5)
   img = tf.image.adjust_brightness(img, 0.1)
   return img, label
   
