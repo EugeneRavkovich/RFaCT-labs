@@ -55,7 +55,7 @@ def process_data(image, label):
 
 # block for random rotation
 def process_data(image, label):
-  img = tf.image.random_rotation(x=image, rg=15)
+  img = tf.keras.preprocessing.image.random_rotation(x=image, rg=15)
   return img, label
   
   
