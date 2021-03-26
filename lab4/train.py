@@ -96,7 +96,7 @@ def main():
   args.add_argument('--train', type=str, help='Glob pattern to collect train tfrecord files, use single quote to escape *')
   args = args.parse_args()
 
-  dataset = create_dataset(glob.glob(args.train), BATCH_SIZE)
+  dataset = create_dataset(glob.glob(args.train), BATCH_SIZE).shuffle(8)
   train_size = int(TRAIN_SIZE * 0.7 / BATCH_SIZE)
   train_dataset = dataset.take(train_size)
   validation_dataset = dataset.skip(train_size)
@@ -105,11 +105,10 @@ def main():
   
   for x, y in dataset.take(1):
     for j in x:
-      if j == 1:
-        print(j)
-        #tf.keras.preprocessing.image.save_img(path=LOG_DIR, x=j, file_format='.jpg')
-        img = Image.fromarray(j.numpy(), 'RGB')
-        img.save('img.jpg')
+      print(j)
+      #tf.keras.preprocessing.image.save_img(path=LOG_DIR, x=j, file_format='.jpg')
+      img = Image.fromarray(j.numpy(), 'RGB')
+      img.save('img.jpg')
       break
  
   model.compile(
