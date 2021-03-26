@@ -50,7 +50,7 @@ def transforms(image):
   transform = A.Compose([
     #A.PadIfNeeded(min_height=250, min_width=250, border_mode=0, value=255),
     #A.RandomCrop(height=224, width=224)
-    A.RandomBrightnessContrast(brightness_limit=0.5, contrast_limit=0.5)
+    A.RandomBrightnessContrast(brightness_limit=0.9, contrast_limit=0.9)
   ])
   aug_image = transform(image=image)["image"]
   return aug_image
