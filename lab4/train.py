@@ -112,7 +112,7 @@ def main():
       break
  
   model.compile(
-    optimizer=tf.optimizers.Adam(le=0.001),
+    optimizer=tf.optimizers.Adam(lr=0.001),
     loss=tf.keras.losses.categorical_crossentropy,
     metrics=[tf.keras.metrics.categorical_accuracy],
   )
