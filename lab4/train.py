@@ -45,11 +45,19 @@ def parse_proto_example(proto):
 
 def normalize(image, label):
   return tf.image.per_image_standardization(image), label
-  
-def procces_data(image, label):
+"""
+# block for contrast&brightness manipulations
+def process_data(image, label):
   img = tf.image.adjust_contrast(image, 2)
   img = tf.image.adjust_brightness(img, 0.3)
   return img, label
+"""
+
+# block for random rotation
+def process_data(image, label):
+  img = tf.image.random_rotation(x=image, rg=15)
+  return img, label
+  
   
 def create_dataset(filenames, batch_size):
   """Create dataset from tfrecords file
@@ -59,7 +67,7 @@ def create_dataset(filenames, batch_size):
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
-    .map(procces_data)\
+    .map(process_data)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
