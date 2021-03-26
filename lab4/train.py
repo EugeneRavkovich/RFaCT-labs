@@ -39,7 +39,7 @@ def parse_proto_example(proto):
   example = tf.io.parse_single_example(proto, keys_to_features)
   example['image'] = tf.image.decode_jpeg(example['image/encoded'], channels=3)
   example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.uint8)
-  example['image'] = tf.image.resize(example['image'], tf.constant([RESIZE_TO, RESIZE_TO]), method='nearest')
+  example['image'] = tf.image.resize(example['image'], tf.constant([300, 300]), method='nearest')
   return example['image'], tf.one_hot(example['image/label'], depth=NUM_CLASSES)
 
 
@@ -48,7 +48,7 @@ def normalize(image, label):
 
 def transforms(image):
   transform = A.Compose([
-    A.PadIfNeeded(min_height=250, min_width=250, border_mode=0, value=255),
+    #A.PadIfNeeded(min_height=250, min_width=250, border_mode=0, value=255),
     A.RandomCrop(height=224, width=224)
   ])
   aug_image = transform(image=image)["image"]
@@ -112,7 +112,7 @@ def main():
       break
  
   model.compile(
-    optimizer=tf.optimizers.Adam(lr=0.001),
+    optimizer=tf.optimizers.Adam(),
     loss=tf.keras.losses.categorical_crossentropy,
     metrics=[tf.keras.metrics.categorical_accuracy],
   )
@@ -124,7 +124,7 @@ def main():
     validation_data=validation_dataset,
     callbacks=[
       tf.keras.callbacks.TensorBoard(log_dir),
-      #LearningRateScheduler(exp_decay)
+      LearningRateScheduler(exp_decay)
     ]
   )
 
