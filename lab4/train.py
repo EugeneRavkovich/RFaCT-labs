@@ -39,7 +39,7 @@ def parse_proto_example(proto):
   example = tf.io.parse_single_example(proto, keys_to_features)
   example['image'] = tf.image.decode_jpeg(example['image/encoded'], channels=3)
   example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.uint8)
-  example['image'] = tf.image.resize(example['image'], tf.constant([RESIZE_TO, RESIZE_TO]), method='nearest')
+  example['image'] = tf.image.resize(example['image'], tf.constant([RESIZE_TO, RESIZE_TO]))
   return example['image'], tf.one_hot(example['image/label'], depth=NUM_CLASSES)
 
 
@@ -59,6 +59,10 @@ def process_data(image, label):
   aug_img = tf.numpy_function(func=transforms, inp=[image], Tout=tf.uint8)
   return aug_img, label
   
+def foo(image, label):
+  img = tf.image.adjust_contrast(image, 0.2)
+  img = tf.image.adjust_brightness(img, 0.2)
+  return img, label
   
 def create_dataset(filenames, batch_size):
   """Create dataset from tfrecords file
@@ -68,7 +72,7 @@ def create_dataset(filenames, batch_size):
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
-    .map(process_data)\
+    .map(foo)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
