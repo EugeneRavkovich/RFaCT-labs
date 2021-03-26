@@ -85,7 +85,7 @@ def build_model():
 
 
 def exp_decay(epoch):
-    initial_rate = 0.01
+    initial_rate = 0.1
     k = 0.3
     lr = initial_rate * exp(-k*epoch)
     print(f'{lr}')
@@ -103,7 +103,7 @@ def main():
   validation_dataset = dataset.skip(train_size)
   LearningRateScheduler(exp_decay)
   model = build_model()
-  
+  """
   for x, y in dataset.take(1):
     for j in x:
       print(j)
@@ -111,7 +111,7 @@ def main():
       img = Image.fromarray(j.numpy(), 'RGB')
       img.save('img.jpg')
       break
- 
+ """
   model.compile(
     optimizer=tf.optimizers.Adam(),
     loss=tf.keras.losses.categorical_crossentropy,
