@@ -76,7 +76,7 @@ img_augmentations = tf.keras.models.Sequential([
 ])
 
 def build_model():
-  inputs = tf.keras.Input(shape=(250, 250, 3))
+  inputs = tf.keras.Input(shape=(224, 224, 3))
   model = tf.keras.applications.EfficientNetB0(include_top=False, input_tensor=inputs, weights='imagenet')
   model.trainable = False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
@@ -85,7 +85,7 @@ def build_model():
 
 
 def exp_decay(epoch):
-    initial_rate = 0.1
+    initial_rate = 0.01
     k = 0.3
     lr = initial_rate * exp(-k*epoch)
     print(f'{lr}')
