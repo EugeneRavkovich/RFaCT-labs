@@ -39,13 +39,13 @@ def parse_proto_example(proto):
   example = tf.io.parse_single_example(proto, keys_to_features)
   example['image'] = tf.image.decode_jpeg(example['image/encoded'], channels=3)
   example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.uint8)
-  example['image'] = tf.image.resize(example['image'], tf.constant([RESIZE_TO, RESIZE_TO]), method='nearest')
+  example['image'] = tf.image.resize(example['image'], tf.constant([RESIZE_TO, RESIZE_TO]))
   return example['image'], tf.one_hot(example['image/label'], depth=NUM_CLASSES)
 
 
 def normalize(image, label):
   return tf.image.per_image_standardization(image), label
-
+"""
 def transforms(image):
   transform = A.Compose([
     #A.PadIfNeeded(min_height=250, min_width=250, border_mode=0, value=255),
@@ -58,8 +58,9 @@ def transforms(image):
 def process_data(image, label):
   aug_img = tf.numpy_function(func=transforms, inp=[image], Tout=tf.uint8)
   return aug_img, label
+ """
   
-def foo(image, label):
+def procces_unit(image, label):
   img = tf.image.adjust_contrast(image, 2)
   img = tf.image.adjust_brightness(img, 0.1)
   return img, label
@@ -72,7 +73,7 @@ def create_dataset(filenames, batch_size):
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
-    .map(process_data)\
+    .map(procces_unit)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
@@ -107,7 +108,7 @@ def main():
   train_dataset = dataset.take(train_size)
   validation_dataset = dataset.skip(train_size)
   model = build_model()
- 
+ """
   for x, y in dataset.take(1):
     for j in x:
       print(j)
@@ -115,7 +116,7 @@ def main():
       img = Image.fromarray(j.numpy(), 'RGB')
       img.save('img.jpg')
       break
- 
+  """
   model.compile(
     optimizer=tf.optimizers.Adam(),
     loss=tf.keras.losses.categorical_crossentropy,
