@@ -48,7 +48,7 @@ def normalize(image, label):
 
 def transforms(image):
   transform = A.Compose([
-    A.PadIfNeeded(min_height=250, min_width=250, border_mode=0, value=1),
+    A.PadIfNeeded(min_height=250, min_width=250, border_mode=0, value=255),
     A.RandomCrop(height=224, width=224)
   ])
   aug_image = transform(image=image)["image"]
@@ -96,7 +96,7 @@ def main():
   args.add_argument('--train', type=str, help='Glob pattern to collect train tfrecord files, use single quote to escape *')
   args = args.parse_args()
 
-  dataset = create_dataset(glob.glob(args.train), BATCH_SIZE).shuffle(8)
+  dataset = create_dataset(glob.glob(args.train), BATCH_SIZE)
   train_size = int(TRAIN_SIZE * 0.7 / BATCH_SIZE)
   train_dataset = dataset.take(train_size)
   validation_dataset = dataset.skip(train_size)
@@ -112,7 +112,7 @@ def main():
       break
  
   model.compile(
-    optimizer=tf.optimizers.Adam(),
+    optimizer=tf.optimizers.Adam(le=0.001),
     loss=tf.keras.losses.categorical_crossentropy,
     metrics=[tf.keras.metrics.categorical_accuracy],
   )
@@ -124,7 +124,7 @@ def main():
     validation_data=validation_dataset,
     callbacks=[
       tf.keras.callbacks.TensorBoard(log_dir),
-      LearningRateScheduler(exp_decay)
+      #LearningRateScheduler(exp_decay)
     ]
   )
 
