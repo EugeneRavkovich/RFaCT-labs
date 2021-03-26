@@ -45,24 +45,10 @@ def parse_proto_example(proto):
 
 def normalize(image, label):
   return tf.image.per_image_standardization(image), label
-"""
-def transforms(image):
-  transform = A.Compose([
-    #A.PadIfNeeded(min_height=250, min_width=250, border_mode=0, value=255),
-    #A.RandomCrop(height=224, width=224)
-    A.RandomBrightnessContrast(brightness_limit=0.1, contrast_limit=2)
-  ])
-  aug_image = transform(image=image)["image"]
-  return aug_image
-
-def process_data(image, label):
-  aug_img = tf.numpy_function(func=transforms, inp=[image], Tout=tf.uint8)
-  return aug_img, label
- """
   
-def procces_unit(image, label):
+def procces_data(image, label):
   img = tf.image.adjust_contrast(image, 2)
-  img = tf.image.adjust_brightness(img, -0.3)
+  img = tf.image.adjust_brightness(img, 0.3)
   return img, label
   
 def create_dataset(filenames, batch_size):
@@ -73,13 +59,10 @@ def create_dataset(filenames, batch_size):
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
-    .map(procces_unit)\
+    .map(procces_data)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
-img_augmentations = tf.keras.models.Sequential([
-  #tf.keras.layers.experimental.preprocessing.RandomCrop(224,224)
-])
 
 def build_model():
   inputs = tf.keras.Input(shape=(224, 224, 3))
