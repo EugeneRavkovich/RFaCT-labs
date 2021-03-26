@@ -62,7 +62,7 @@ def process_data(image, label):
   
 def procces_unit(image, label):
   img = tf.image.adjust_contrast(image, 2)
-  img = tf.image.adjust_brightness(img, 0.1)
+  img = tf.image.adjust_brightness(img, 0.3)
   return img, label
   
 def create_dataset(filenames, batch_size):
