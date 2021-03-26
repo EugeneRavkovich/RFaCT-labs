@@ -45,20 +45,15 @@ def parse_proto_example(proto):
 
 def normalize(image, label):
   return tf.image.per_image_standardization(image), label
-"""
+
+
 # block for contrast&brightness manipulations
 def process_data(image, label):
   img = tf.image.adjust_contrast(image, 2)
   img = tf.image.adjust_brightness(img, 0.3)
   return img, label
-"""
 
-# block for random rotation
-def process_data(image, label):
-  img = tf.keras.preprocessing.image.random_rotation(x=image, rg=15)
-  return img, label
-  
-  
+
 def create_dataset(filenames, batch_size):
   """Create dataset from tfrecords file
   :tfrecords_files: Mask to collect tfrecords file of dataset
