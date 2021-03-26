@@ -48,7 +48,7 @@ def normalize(image, label):
 
 def transforms(image):
   transform = A.Compose([
-    A.PadIfNeeded(min_height=300, min_width=300, border_mode=0, value=0),
+    A.PadIfNeeded(min_height=250, min_width=250, border_mode=0, value=1),
     A.RandomCrop(height=224, width=224)
   ])
   aug_image = transform(image=image)["image"]
@@ -105,10 +105,11 @@ def main():
   
   for x, y in dataset.take(1):
     for j in x:
-      print(j)
-      #tf.keras.preprocessing.image.save_img(path=LOG_DIR, x=j, file_format='.jpg')
-      img = Image.fromarray(j.numpy(), 'RGB')
-      img.save('img.jpg')
+      if j == 1:
+        print(j)
+        #tf.keras.preprocessing.image.save_img(path=LOG_DIR, x=j, file_format='.jpg')
+        img = Image.fromarray(j.numpy(), 'RGB')
+        img.save('img.jpg')
       break
  
   model.compile(
