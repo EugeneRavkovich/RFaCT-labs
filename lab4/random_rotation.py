@@ -61,7 +61,7 @@ def create_dataset(filenames, batch_size):
 
 def build_model():
   inputs = tf.keras.Input(shape=(224, 224, 3))
-  img_aug = tf.keras.layers.experimental.preprocessing.RandomRotation(factor=0.05)(inputs)
+  img_aug = tf.keras.layers.experimental.preprocessing.RandomRotation(factor=0.5)(inputs)
   model = tf.keras.applications.EfficientNetB0(include_top=False, input_tensor=img_aug, weights='imagenet')
   model.trainable = False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
@@ -71,7 +71,7 @@ def build_model():
 
 def exp_decay(epoch):
     initial_rate = 0.1
-    k = 0.5
+    k = 0.3
     lr = initial_rate * exp(-k*epoch)
     print(f'{lr}')
     return lr
