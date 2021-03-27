@@ -48,7 +48,7 @@ def normalize(image, label):
 
 
 def foo(image, label):
-  return tf.image.random_crop(image, 224), label
+  return tf.image.random_crop(image, [224, 224, 3]), label
 
 
 def create_dataset(filenames, batch_size):
