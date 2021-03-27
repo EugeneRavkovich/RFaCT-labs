@@ -39,12 +39,16 @@ def parse_proto_example(proto):
   example = tf.io.parse_single_example(proto, keys_to_features)
   example['image'] = tf.image.decode_jpeg(example['image/encoded'], channels=3)
   example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.uint8)
-  example['image'] = tf.image.resize(example['image'], tf.constant([RESIZE_TO, RESIZE_TO]))
+  example['image'] = tf.image.resize(example['image'], tf.constant([RESIZE_TO, RESIZE_TO]), method='nearest')
   return example['image'], tf.one_hot(example['image/label'], depth=NUM_CLASSES)
 
 
 def normalize(image, label):
   return tf.image.per_image_standardization(image), label
+
+
+def foo(image, label):
+  return tf.image.random_crop(value=[250,250,3], size=224)
 
 
 def create_dataset(filenames, batch_size):
@@ -61,8 +65,7 @@ def create_dataset(filenames, batch_size):
 
 def build_model():
   inputs = tf.keras.Input(shape=(224, 224, 3))
-  img_aug = tf.keras.layers.experimental.preprocessing.RandomRotation(factor=0.05, fill_mode='constant', fill_value=255)(inputs)
-  model = tf.keras.applications.EfficientNetB0(include_top=False, input_tensor=img_aug, weights='imagenet')
+  model = tf.keras.applications.EfficientNetB0(include_top=False, input_tensor=inputs, weights='imagenet')
   model.trainable = False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
   outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
@@ -87,7 +90,7 @@ def main():
   train_dataset = dataset.take(train_size)
   validation_dataset = dataset.skip(train_size)
   model = build_model()
-  """
+  
   for x, y in dataset.take(1):
     for j in x:
       print(j)
@@ -95,7 +98,7 @@ def main():
       img = Image.fromarray(j.numpy(), 'RGB')
       img.save('img.jpg')
       break
-  """
+  
   model.compile(
     optimizer=tf.optimizers.Adam(),
     loss=tf.keras.losses.categorical_crossentropy,
