@@ -7,6 +7,12 @@
     * Визуализация функций потерь (categorical_crossentropy)
   ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab4/graphs/contrast%20%26%20brightness/contrast%26brightness_loss.png)
   #### Оптимальные параметры: фактор контраста - 2 и изменение яркости - 0.3. При такой комбинации достигается максимальное значение метрики качества на валидации и наилучшая скорость сходимости. Алгоритм с данным типом аугментации достиг предела сходимости на 24-й эпохе, в то время как базовый алгоритм достиг предела сходимости лишь на 30-й эпохе. Прирост качества - 0.36% относительно базового алгоритма.
+  * Случайный поворот
+    * Визуализация метрик качества (categorical_accuracy)
+  ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab4/graphs/random%20rotation/random_rotation_categorical_accuracy.png)
+    * Визуализация функций потерь (categorical_crossentropy)
+  ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab4/graphs/random%20rotation/random_rotation_loss.png)
+  
   * Добавление случайного шума
     * Визуализация метрик качества (categorical_accuracy)
   ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab4/graphs/random_noise/random_noise_categorical_accuracy.png)
