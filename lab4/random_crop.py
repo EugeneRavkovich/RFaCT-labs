@@ -59,14 +59,14 @@ def create_dataset(filenames, batch_size):
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
-    .map(foo)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
 
 def build_model():
-  inputs = tf.keras.Input(shape=(224, 224, 3))
-  model = tf.keras.applications.EfficientNetB0(include_top=False, input_tensor=inputs, weights='imagenet')
+  inputs = tf.keras.Input(shape=(250, 250, 3))
+  x = tf.keras.layers.experimental.preprocessing.RandomCrop(224, 224)(inputs)
+  model = tf.keras.applications.EfficientNetB0(include_top=False, input_tensor=x, weights='imagenet')
   model.trainable = False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
   outputs = tf.keras.layers.Dense(NUM_CLASSES, activation=tf.keras.activations.softmax)(x)
