@@ -47,13 +47,6 @@ def normalize(image, label):
   return tf.image.per_image_standardization(image), label
 
 
-# block for contrast&brightness manipulations
-def process_data(image, label):
-  img = tf.image.adjust_contrast(image, 2)
-  img = tf.image.adjust_brightness(img, 0.3)
-  return img, label
-
-
 def create_dataset(filenames, batch_size):
   """Create dataset from tfrecords file
   :tfrecords_files: Mask to collect tfrecords file of dataset
@@ -62,14 +55,13 @@ def create_dataset(filenames, batch_size):
   return tf.data.TFRecordDataset(filenames)\
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
-    .map(process_data)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
 
 def build_model():
   inputs = tf.keras.Input(shape=(224, 224, 3))
-  img_aug = tf.keras.layers.GaussianNoise(0.1)(inputs)
+  img_aug = tf.keras.layers.GaussianNoise(0.01)(inputs)
   model = tf.keras.applications.EfficientNetB0(include_top=False, input_tensor=img_aug, weights='imagenet')
   model.trainable = False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
