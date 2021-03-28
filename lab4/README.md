@@ -20,8 +20,8 @@
   ### 3) Использование случайной части изображения
   * Визуализация метрик качества (categorical_accuracy)
   ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab4/graphs/random_crop/random_crop_categorical_accuracy.png)
-  * Визуализация функций потерь (https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab4/graphs/random_crop/random_crop_loss.png)
-  ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab4/graphs/random_noise/random_noise_loss.png)
+  * Визуализация функций потерь 
+  ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab4/graphs/random_crop/random_crop_loss.png)
   ### 4) Добавление случайного шума
   * Визуализация метрик качества (categorical_accuracy)
   ![Image alt](https://github.com/Mariwannaxsfzx/RFaCT-labs/blob/main/lab4/graphs/random_noise/random_noise_categorical_accuracy.png)
