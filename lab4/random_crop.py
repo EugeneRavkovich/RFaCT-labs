@@ -39,7 +39,7 @@ def parse_proto_example(proto):
   example = tf.io.parse_single_example(proto, keys_to_features)
   example['image'] = tf.image.decode_jpeg(example['image/encoded'], channels=3)
   example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.uint8)
-  example['image'] = tf.image.resize(example['image'], tf.constant([300, 300]))
+  example['image'] = tf.image.resize(example['image'], tf.constant([250, 250]))
   return example['image'], tf.one_hot(example['image/label'], depth=NUM_CLASSES)
 
 
@@ -65,7 +65,7 @@ def create_dataset(filenames, batch_size):
 
 
 def build_model():
-  inputs = tf.keras.Input(shape=(250, 250, 3))
+  inputs = tf.keras.Input(shape=(224, 224, 3))
   model = tf.keras.applications.EfficientNetB0(include_top=False, input_tensor=inputs, weights='imagenet')
   model.trainable = False
   x = tf.keras.layers.GlobalAveragePooling2D()(model.output)
