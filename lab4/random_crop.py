@@ -75,7 +75,7 @@ def build_model():
 
 def exp_decay(epoch):
     initial_rate = 0.1
-    k = 0.3
+    k = 0.1
     lr = initial_rate * exp(-k*epoch)
     print(f'{lr}')
     return lr
@@ -109,7 +109,7 @@ def main():
   log_dir='{}/owl-{}'.format(LOG_DIR, time.time())
   model.fit(
     train_dataset,
-    epochs=80,
+    epochs=50,
     validation_data=validation_dataset,
     callbacks=[
       tf.keras.callbacks.TensorBoard(log_dir),
