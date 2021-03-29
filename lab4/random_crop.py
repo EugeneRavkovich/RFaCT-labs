@@ -38,7 +38,7 @@ def parse_proto_example(proto):
   }
   example = tf.io.parse_single_example(proto, keys_to_features)
   example['image'] = tf.image.decode_jpeg(example['image/encoded'], channels=3)
-  example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.float32)
+  example['image'] = tf.image.convert_image_dtype(example['image'], dtype=tf.uint8)
   example['image'] = tf.image.resize(example['image'], tf.constant([250, 250]))
   return example['image'], tf.one_hot(example['image/label'], depth=NUM_CLASSES)
 
@@ -51,7 +51,7 @@ def process_data(image, label):
   return tf.image.random_crop(image, [224, 224, 3]), label
 
 def cast_type(image, label):
-  return tf.cast(image, tf.uint8), label
+  return tf.cast(image, tf.float32), label
 
 def create_dataset(filenames, batch_size):
   """Create dataset from tfrecords file
