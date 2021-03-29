@@ -50,9 +50,6 @@ def normalize(image, label):
 def process_data(image, label):
   return tf.image.random_crop(image, [224, 224, 3]), label
 
-def cast_type(image, label):
-  return tf.cast(image, tf.float32), label
-
 def create_dataset(filenames, batch_size):
   """Create dataset from tfrecords file
   :tfrecords_files: Mask to collect tfrecords file of dataset
@@ -62,7 +59,6 @@ def create_dataset(filenames, batch_size):
     .map(parse_proto_example, num_parallel_calls=tf.data.AUTOTUNE)\
     .cache()\
     .map(process_data)\
-    .map(cast_type)\
     .batch(batch_size)\
     .prefetch(tf.data.AUTOTUNE)
 
