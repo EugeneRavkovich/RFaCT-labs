@@ -117,13 +117,12 @@ def unfreeze_model(model):
             layer.trainable = True
 
 
-def step_decay(epoch):
-    initial_lrate = 0.001
-    drop = 0.3
-    epochs_drop = 4.0
-    l_rate = initial_lrate * math.pow(drop, math.floor((1 + epoch) / epochs_drop))
-    print('learning rate = {}'.format(l_rate))
-    return l_rate
+def exp_decay(epoch):
+    initial_rate = 0.1
+    k = 0.3
+    lr = initial_rate * exp(-k*epoch)
+    print(f'{lr}')
+    return lr
 
 
 def main():
@@ -137,7 +136,6 @@ def main():
     train_dataset = dataset.take(train_size)
     validation_dataset = dataset.skip(train_size)
 
-    l_rate = LearningRateScheduler(step_decay)
     model = build_model()
     model.compile(
         optimizer=tf.optimizers.Adam(),
@@ -145,14 +143,15 @@ def main():
         metrics=[tf.keras.metrics.categorical_accuracy],
     )
 
-    log_dir = '{}/owl-{}.csv'.format(LOG_DIR, time.time())
+    log_dir = '{}/owl-{}'.format(LOG_DIR, time.time())
     model.fit(
         train_dataset,
-        epochs=2,
+        epochs=20,
         validation_data=validation_dataset,
         callbacks=[
-            CustomCallback(),
-            l_rate
+            tf.keras.callbacks.TensorBoard(log_dir),
+            LearningRateScheduler(exp_decay),
+            
         ]
     )
 
@@ -165,14 +164,14 @@ def main():
     )
     model.fit(
         train_dataset,
-        epochs=2,
+        epochs=15,
         validation_data=validation_dataset,
         callbacks=[
-            CustomCallback(),
+            tf.keras.callbacks.TensorBoard(log_dir),
+            LearningRateScheduler(exp_decay),
         ]
     )
-    to_log_file(CustomCallback.loggs, log_dir)
-    print(CustomCallback.loggs)
+    
 
 if __name__ == '__main__':
     main()
