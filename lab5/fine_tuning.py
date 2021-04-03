@@ -85,8 +85,8 @@ def exp_decay(epoch):
     return lr
 
 def unfreeze_model(model):
-  for layer in model.layers[-20:]:
-    if not isinstance(layer, layers.BatchNormalization):
+  for layer in model.layers:
+    if not isinstance(layer, tf.keras.layers.BatchNormalization):
       layer.trainable = True
   model.compile(
     optimizer=tf.keras.optimizers.Adam(1e-6),
@@ -133,7 +133,7 @@ def main():
   unfreeze_model(model)
   model.fit(
     train_dataset,
-    epochs=20,
+    epochs=30,
     validation_data=validation_dataset,
     callbacks=[
       tf.keras.callbacks.TensorBoard(log_dir),
