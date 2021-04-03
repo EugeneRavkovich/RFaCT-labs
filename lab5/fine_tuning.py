@@ -88,11 +88,7 @@ def unfreeze_model(model):
   for layer in model.layers:
     if not isinstance(layer, tf.keras.layers.BatchNormalization):
       layer.trainable = True
-  model.compile(
-    optimizer=tf.keras.optimizers.Adam(1e-6),
-    loss=tf.keras.losses.categorical_crossentropy,
-    metrics=[tf.keras.metrics.categorical_accuracy],
-  )
+  
 
 def main():
   args = argparse.ArgumentParser()
@@ -131,6 +127,11 @@ def main():
   )
   
   unfreeze_model(model)
+  model.compile(
+    optimizer=tf.optimizers.Adam(lr=2e-7),
+    loss=tf.keras.losses.categorical_crossentropy,
+    metrics=[tf.keras.metrics.categorical_accuracy],
+  )
   model.fit(
     train_dataset,
     epochs=30,
