@@ -76,6 +76,8 @@ def exp_decay(epoch):
     print(f'{lr}')
     return lr
 
+  
+
 
 def main():
   args = argparse.ArgumentParser()
@@ -110,6 +112,22 @@ def main():
     callbacks=[
       tf.keras.callbacks.TensorBoard(log_dir),
       LearningRateScheduler(exp_decay)
+    ]
+  )
+  
+  model.trainable = True
+  model.compile(
+    optimizer=tf.optimizers.Adam(2e-6),
+    loss=tf.keras.losses.categorical_crossentropy,
+    metrics=[tf.keras.metrics.categorical_accuracy],
+  )
+  
+  model.fit(
+    train_dataset,
+    epochs=15,
+    validation_data=validation_dataset,
+    callbacks=[
+      tf.keras.callbacks.TensorBoard(log_dir),
     ]
   )
 
