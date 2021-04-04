@@ -76,8 +76,15 @@ def exp_decay(epoch):
     print(f'{lr}')
     return lr
 
-  
-
+def unfreeze_model(model):
+    for layer in model.layers:
+        if not isinstance(layer, tf.keras.layers.BatchNormalization):
+            layer.trainable = true
+    model.compile(
+        optimizer=tf.optimizers.Adam(3e-8),
+        loss=tf.keras.losses.categorical_crossentropy,
+        metrics=[tf.keras.metrics.categorical_accuracy],
+    )
 
 def main():
   args = argparse.ArgumentParser()
@@ -115,12 +122,9 @@ def main():
     ]
   )
   
-  model.trainable = True
-  model.compile(
-    optimizer=tf.optimizers.Adam(3e-8),
-    loss=tf.keras.losses.categorical_crossentropy,
-    metrics=[tf.keras.metrics.categorical_accuracy],
-  )
+  unfreeze_model(model)
+  
+
   
   model.fit(
     train_dataset,
