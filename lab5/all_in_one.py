@@ -79,7 +79,7 @@ def exp_decay(epoch):
 def unfreeze_model(model):
     for layer in model.layers:
         if not isinstance(layer, tf.keras.layers.BatchNormalization):
-            layer.trainable = true
+            layer.trainable = True
     model.compile(
         optimizer=tf.optimizers.Adam(3e-8),
         loss=tf.keras.losses.categorical_crossentropy,
