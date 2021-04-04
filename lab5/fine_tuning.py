@@ -85,11 +85,11 @@ def exp_decay(epoch):
     return lr
   
 def exp_decay_v2():
-    in = 0.1
+    inr = 0.1
     k = 0.3
     lr = 0
     for i in range(20):
-        lr = in * exp(-k*i)
+        lr = inr * exp(-k*i)
     new_lr = lr * 10**-3
     return lr
 
