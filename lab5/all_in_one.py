@@ -117,7 +117,7 @@ def main():
   
   model.trainable = True
   model.compile(
-    optimizer=tf.optimizers.Adam(2e-6),
+    optimizer=tf.optimizers.Adam(3e-8),
     loss=tf.keras.losses.categorical_crossentropy,
     metrics=[tf.keras.metrics.categorical_accuracy],
   )
