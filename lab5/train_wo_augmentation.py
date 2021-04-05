@@ -67,11 +67,21 @@ def build_model():
 
 def exp_decay(epoch):
     initial_rate = 0.1
-    k = 0.5
+    k = 0.3
     lr = initial_rate * exp(-k*epoch)
     print(f'{lr}')
     return lr
 
+  def unfreeze_model(model):
+  for layer in model.layers:
+    if not isinstance(layer, tf.keras.layers.BatchNormalization):
+      layer.trainable = True
+      
+    model.compile(
+      optimizer=tf.optimizers.Adam(lr=2e-4),
+      loss=tf.keras.losses.categorical_crossentropy,
+      metrics=[tf.keras.metrics.categorical_accuracy],
+    )
 
 def main():
   args = argparse.ArgumentParser()
@@ -86,7 +96,7 @@ def main():
   model = build_model()
 
   model.compile(
-    optimizer=tf.optimizers.Adam(lr=LR),
+    optimizer=tf.optimizers.Adam(),
     loss=tf.keras.losses.categorical_crossentropy,
     metrics=[tf.keras.metrics.categorical_accuracy],
   )
@@ -94,11 +104,21 @@ def main():
   log_dir='{}/owl-{}'.format(LOG_DIR, time.time())
   model.fit(
     train_dataset,
-    epochs=50,
+    epochs=20,
     validation_data=validation_dataset,
     callbacks=[
       tf.keras.callbacks.TensorBoard(log_dir),
       LearningRateScheduler(exp_decay)
+    ]
+  )
+  
+  unfreeze_model(model)
+  model.fit(
+    train_dataset,
+    epochs=15,
+    validation_data=validation_dataset,
+    callbacks=[
+      tf.keras.callbacks.TensorBoard(log_dir),
     ]
   )
 
