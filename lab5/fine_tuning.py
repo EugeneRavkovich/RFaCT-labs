@@ -128,7 +128,7 @@ def main():
   )
   
   unfreeze_model(model)
-  new_lr = exp_decay_v2()
+
   model.compile(
     optimizer=tf.optimizers.Adam(lr=2e-7),
     loss=tf.keras.losses.categorical_crossentropy,
