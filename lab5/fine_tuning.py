@@ -84,14 +84,6 @@ def exp_decay(epoch):
     print(f'{lr}')
     return lr
   
-def exp_decay_v2():
-    inr = 0.1
-    k = 0.3
-    lr = 0
-    for i in range(20):
-        lr = inr * exp(-k*i)
-    new_lr = lr * 10**-3
-    return lr
 
 def unfreeze_model(model):
   for layer in model.layers:
@@ -138,7 +130,7 @@ def main():
   unfreeze_model(model)
   new_lr = exp_decay_v2()
   model.compile(
-    optimizer=tf.optimizers.Adam(lr=new_lr),
+    optimizer=tf.optimizers.Adam(lr=2e-7),
     loss=tf.keras.losses.categorical_crossentropy,
     metrics=[tf.keras.metrics.categorical_accuracy],
   )
